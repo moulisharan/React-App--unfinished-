@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<title>Huddle</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<style>
+   
+    body {
+        margin: 0;
+    }
+
+    .user-initial {
+        margin: auto;
+        background: bisque;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 3px 3px rgb(10, 100, 10);
+    }
+
+    .span-wrapper {
+        margin: 20px auto;
+        display: flex;
+    }
+
+    .sidebar {
+        margin: 0;
+        padding: 0;
+        width: 50px;
+        background-color: #062e25;
+        position: fixed;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .sidebar a {
+        display: block;
+        color: rgb(255, 255, 255);
+        padding: 16px;
+        text-decoration: none;
+    }
+
+    .sidebar a.active {
+        background-color: #062e25;
+        color: white;
+    }
+
+    .sidebar a:hover:not(.active) {
+        background-color: #555;
+        color: white;
+    }
+
+    div.content {
+        /* margin-left: 200px; */
+        padding: 1px 16px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /
+    @media screen and (max-width: 700px) {
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+
+        .sidebar a {
+            float: left;
+        }
+
+        div.content {
+            margin-left: 0;
+        }
+    }
+
+    
+    @media screen and (max-width: 400px) {
+        .sidebar a {
+            text-align: center;
+            float: none;
+        }
+    }
+
+    
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 50px;
+        background-color: #0f5030;
+        overflow-x: hidden;
+        padding-top: 60px;
+        transition: 0.5s;
+    }
+
+    .rightnav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 0px;
+        background-color: #f5f5f5;
+        overflow-x: hidden;
+        padding-top: 60px;
+        transition: 0.5s;
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 20px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    #main {
+        transition: margin-left .5s;
+        padding: 20px;
+        height: 90vH;
+    }
+
+    @media screen and (max-width: 450px) {
+        .sidenav {
+            padding-top: 15px;
+            left: 0;
+        }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+
+        .sidebar {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .span-wrapper{
+            display: none;
+        }
+    }
+
+    .common-flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0px 20px;
+        font-size: 20px;
+        font-family: sans-serif;
+    }
+
+    .closebtn {
+        cursor: pointer;
+    }
+</style>
+
+<body>
+ 
+    <div class="sidebar">
+        <div class="span-wrapper"><span class="user-initial">H</span></div>
+        <a class="active" href="#home" onclick="openNav()"><i class="fa-solid fa-user"></i></a>
+        <a href="#news" onClick="openRightNav()"><i class="fa-solid fa-message"></i></i></a>
+        <a href="#contact"><i class="fa-solid fa-user"></i></a>
+    </div>
+
+    <div id="main">
+        <div class="content" onclick="closeNav()">
+            <div class="meet-container">
+                <div class="meet-logo">
+                    <h1>Huddle</h1>
+                </div>
+            </div>
+        </div>
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">Account</a>
+            <a href="#">Room Settings</a>
+            <a href="#">Subscription</a>
+            <a href="#">Recordings</a>
+            <a href="#">Notification</a>
+        </div>
+        <div id="rightSidenav" class="rightnav">
+            <div class="common-flex">Meeting Chat <div class="closebtn" onclick="closeRightNav()">&times;</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "300px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+    function openRightNav() {
+        document.getElementById("rightSidenav").style.width = "250px";
+        document.getElementById("main").style.marginRight = "250px";
+    }
+
+    function closeRightNav() {
+        document.getElementById("rightSidenav").style.width = "0";
+        document.getElementById("main").style.marginRight = "0";
+    }
+</script>
+
+</html>
