@@ -1,0 +1,468 @@
+doctype html
+html(lang='en')
+  head
+    // Title and Icon
+    title Shuffle meeting room
+    link(rel='shortcut icon' href='images/fav.png')
+    link(rel='apple-touch-icon' href='images/fav.png')
+    // Meta Information
+    meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
+    meta(name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
+    meta(name='description' content='Shuffle powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+    meta(name='keywords' content='webrtc, webrtc stun, webrtc turn, video meeting, video chat, multi video chat, peer to peer, p2p, zoom')
+    // https://ogp.me
+    meta(property='og:type' content='app-webrtc')
+    meta(property='og:site_name' content='Shuffle')
+    meta(property='og:title' content=`Click the link to join ${meetingname}'s call`)
+    meta(property='og:description' content='Shuffle is free high quality browser based video conferencing')
+    link(rel='icon' type='image/png' sizes='32x32' href='/images/favicon.png')
+    // StyleSheet
+    link(rel='stylesheet' href='/css/font.css')
+    link(rel='stylesheet' href='/css/landing.css')
+    link(rel='stylesheet' href='/css/client.css')
+    link(rel='stylesheet' href='/css/whiteboard.css')
+    // https://animate.style 4 using for swal fadeIn-Out
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css')
+  body(onload='initClientPeer()')
+    .body-wrap
+      input#isCreator(type='hidden' value=`${isCreator}`)
+      input#isLocked(type='hidden' value=`${isLocked}`)
+      input#userinfo(type='hidden', value=`${userinfo}`)
+      input#usericon(type='hidden', value=`${usericon}`)
+      input#userid(type='hidden', value=`${userid}`)
+      input#plantype(type='hidden' value=`${plantype}`)
+      noscript You need to enable JavaScript to run this app.
+      // just 4SEO Optimization
+      #webRTCSeo
+        h1 WebRTC
+      // show this before to join
+      #loadingBg.loading-bg
+        #loadingDiv
+          h1 You're entering the meeting
+          p
+            | Connect and collaborate through high quality video confering on Shuffle.
+          .no-mic-cam
+            img(src='/images/ico_loading.svg')
+            p.text-center No mic/cam access
+
+      #waitingBg.loading-bg
+        #waitingDiv
+          h1 The meeting room is currently locked
+          p
+            | We've notified the meeting host that you are in the waiting room. You will be let in shortly
+      video#prevVideo(playsinline='true' muted='true' autoplay)
+      #buttonsBar
+        button#shareRoomBtn.fas.fa-users
+        button#swapCameraBtn.fas.fa-sync-alt
+        button#recordStreamBtn.fas.fa-record-vinyl
+        button#fullScreenBtn.fas.fa-expand-alt
+        button#chatRoomBtn.fas.fa-comment
+        //- button#whiteboardBtn.fas.fa-chalkboard-teacher
+        button#gameBtn.fas.fa-gamepad
+        button#aboutBtn.fas.fa-question
+        button#leaveRoomBtn.fas.fa-phone-slash
+      .main-wrapper.container
+        .invite-people-wrap
+          div.flex.just-between.align-center
+            h5 Your meeting is ready!
+            span#closeInviteParyBtn Close
+          button#invitePaticipants.invite-party-btn + Invite Participants
+          br
+          p Or share this meeting link with others you want in the meeting
+          div.in-meeting-link
+            p#inviteLink
+            span#copyInviteLink Copy
+          p.mt-25.mb-0
+            | Joined meeting as 
+            span#joinName
+        .copy-link-wrap
+          label Link Copied to Clipboard!
+          span#closeCopyLink Close
+        .main-content
+          .container
+            .RoomLogoStatus
+              img(src=`${roomlogo}`)
+            #videoMediaContainer.screen-type1
+            .clear
+          .meeting-controls
+            .control-div
+              .screen-option-left
+                .room-info-wrap
+                  span#curMeetingName 
+                  p
+                    if plantype == '1'
+                      span#countMember 1/10
+                    else 
+                      span#countMember 1/100
+                    | &nbsp;&nbsp;|&nbsp;&nbsp;
+                    span#countTime 00:00:00
+                    | &nbsp;&nbsp;&nbsp;
+                    img#collapse-time-btn(src='/images/ico_blue_cur.svg' alt='')
+              .screen-option-center
+                div#showSettingBtn.control-btn
+                  img(src='/images/ico_settings.svg' alt='Settings')
+                div#shareFileBtn.control-btn
+                  img(src='/images/ico_folder.svg' alt='Share a file')
+                div#screenShareBtn.control-btn
+                  img(src='/images/ico_sharescreen.svg' alt='Share Screen')
+                div#endMeetingBtn.end-meeting-btn
+                  img(src='/images/ico_callend.svg' alt='End Meeting')
+                div#recordBtn.control-btn
+                  img(src='/images/ico_record.svg' alt='Record')
+                //- div#localEnableMic.control-btn
+                //-   img(src='/images/ico_setting_mic.svg' alt='Mic On/Off')
+                //- div#more-menu-btn.control-btn
+                //-   img(src='/images/ico_more.svg' alt='More')
+                div#whiteboardBtn.control-btn
+                  img(src='/images/ico_pencil.png' alt='WhiteBoard')
+                div#more-menu-btn.control-btn
+                  img(src='/images/ico_more.svg' alt='More')
+              .screen-option-right
+                button#raiseHandBtn
+                  img(src='/images/ico_hand.svg' alt='Raise Hand')
+                .right-section-btn
+                  button#meetPartyBtn
+                    img(src='/images/ico_participants.svg' alt='Meeting Participants')
+                    span#meetPartyCount 1
+                  | |
+                  button#chatBtn
+                    img(src='/images/ico_messenger.svg' alt='Chat')
+        .sub-content
+          .chat-sidebar
+            section#msger.msger
+              header#msgerHeader.msger-header
+                button#memChatClose.layoutClose
+                  img(src='/images/ico_close.svg' alt='Close')
+                .msger-header-title
+                  img(src='/images/ico_msgbox.svg')
+                  | &nbsp;&nbsp;Chat
+                .msger-header-options.hide
+                  button#msgerTheme.fas.fa-ghost
+                  button#msgerCPBtn.fas.fa-users
+                  button#msgerClean.fas.fa-trash
+                  button#msgerSaveBtn.fas.fa-save
+                  button#msgerClose.fas.fa-times
+              // public messages example
+              .msger-chat-wrap
+                main#msgerChat.msger-chat
+              //
+                Start emoji picker
+                https://github.com/nolanlawson/emoji-picker-element ]
+              section#msgerEmojiPicker
+                emoji-picker.dark
+                // <emoji-picker class="light"></emoji-picker>
+              // End emoji picker
+              .msger-inputarea
+                .msger-extra-btn.hide
+                  div
+                    button#msgerVideoUrlBtn
+                      img(src='/images/ico_newchat.svg')
+                    button#msgerNewFileBtn
+                      img(src='/images/ico_newfile.svg')
+                    button#msgerSoundRecBtn
+                      img(src='/images/ico_mic.svg')
+                  div
+                    button#msgerEmojiBtn
+                      img(src='/images/ico_emoji.svg')
+                br
+                .msger-extra-input.flex
+                  button#msgerEmojiBtn
+                    img(src='/images/ico_emoji.svg')
+                  input#msgerInput.msger-input(type='text' placeholder='Type to write a message')
+                  button#msgerSendBtn Send
+            // Start private msg
+            section#msgerCP
+              section#msgerCPSec.msger
+                header#msgerCPHeader.msger-private-header
+                  .msger-header-title
+                    i.fas.fa-comment-alt
+                    | Send Private messages
+                  .msger-header-options
+                    button#msgerCPCloseBtn.fas.fa-times
+                main#msgerCPChat.msger-chat
+                  .search-container
+                    input#searchPeerBarName(type='text' placeholder=' � Search peer by name...' name='search' onkeyup='searchPeer()')
+                  br
+                  #msgerCPList
+          .memparty-sidebar
+            .memparty-header
+              div
+                button#memPartyClose.layoutClose
+                  img(src='/images/ico_close.svg' alt='Close')
+                img(src='/images/ico_user_parti.svg')
+                | &nbsp;&nbsp;
+                | Participants
+              // Meeting Participants (<span id="meetingPartyCount">1</span>)
+            #memParticipantList.memparty-content
+            .memparty-invite
+              button#memparty-invite-btn Invite via Email
+              button#memparty-copy-link Copy Meeting Link to Clipboard
+    // End left buttons
+    //
+      Start chat room
+      https://codepen.io/sajadhsm/pen/odaBdd
+      https://getemoji.com
+    section#msgerDraggable.msger-draggable.hide
+      //
+        <section id="msger" class="msger">
+        <header id="msgerHeader" class="msger-header">
+        <div class="msger-header-title"><i class="fas fa-comment-alt"></i> Chat</div>
+        <div class="msger-header-options">
+        <button id="msgerTheme" class="fas fa-ghost"></button>
+        <button id="msgerCPBtn" class="fas fa-users"></button>
+        <button id="msgerClean" class="fas fa-trash"></button>
+        <button id="msgerSaveBtn" class="fas fa-save"></button>
+        <button id="msgerClose" class="fas fa-times"></button>
+        </div>
+        </header>
+      // public messages example
+      //
+        <main id="msgerChat" class="msger-chat">
+        <div class="msg left-msg">
+        <div
+        class="msg-img"
+        style="
+        background-image: url('https://eu.ui-avatars.com/api?name=Friends Name&size=24&background=random&rounded=true');
+        "
+        ></div>
+        
+        <div class="msg-bubble">
+        <div class="msg-info">
+        <div class="msg-info-name">Friends Name</div>
+        <div class="msg-info-time">00:00:00</div>
+        </div>
+        
+        <div class="msg-text">Public message example</div>
+        </div>
+        </div>
+        
+        <div class="msg right-msg">
+        <div
+        class="msg-img"
+        style="
+        background-image: url('https://eu.ui-avatars.com/api?name=Your Name&size=24&background=random&rounded=true');
+        "
+        ></div>
+        
+        <div class="msg-bubble">
+        <div class="msg-info">
+        <div class="msg-info-name">Your Name</div>
+        <div class="msg-info-time">00:00:00</div>
+        </div>
+        
+        <div class="msg-text">Public message example</div>
+        </div>
+        </div>
+      // private message example
+      //
+        <div class="msg left-msg">
+        <div
+        class="msg-img"
+        style="
+        background-image: url('https://eu.ui-avatars.com/api?name=Friends Name&size=24&background=random&rounded=true');
+        "
+        ></div>
+        
+        <div class="private-msg-bubble">
+        <div class="msg-info">
+        <div class="msg-info-name">Friends Name</div>
+        <div class="msg-info-time">00:00:00</div>
+        </div>
+        
+        <div class="msg-text">Private message example</div>
+        </div>
+        </div>
+        
+        <div class="msg right-msg">
+        <div
+        class="msg-img"
+        style="
+        background-image: url('https://eu.ui-avatars.com/api?name=Your Name&size=24&background=random&rounded=true');
+        "
+        ></div>
+        
+        <div class="private-msg-bubble">
+        <div class="msg-info">
+        <div class="msg-info-name">Your Name</div>
+        <div class="msg-info-time">00:00:00</div>
+        </div>
+        
+        <div class="msg-text">Private message example</div>
+        </div>
+        </div>
+        </main>
+      //
+        Start emoji picker
+        https://github.com/nolanlawson/emoji-picker-element ]
+      //
+        <section id="msgerEmojiPicker">
+        <emoji-picker class="dark"></emoji-picker>
+      // <emoji-picker class="light"></emoji-picker>
+    // End emoji picker
+    //
+      <div class="msger-inputarea">
+      <input id="msgerInput" class="msger-input" type="text" placeholder="� Enter your message..." />
+      <button id="msgerVideoUrlBtn" class="fab fa-youtube"></button>
+      <button id="msgerEmojiBtn" class="fas fa-smile"></button>
+      <button id="msgerSendBtn" class="fas fa-paper-plane"></button>
+      </div>
+      </section>
+    // Start private msg
+    //
+      <section id="msgerCP">
+      <section id="msgerCPSec" class="msger">
+      <header id="msgerCPHeader" class="msger-private-header">
+      <div class="msger-header-title"><i class="fas fa-comment-alt"></i> Send Private messages</div>
+      <div class="msger-header-options">
+      <button id="msgerCPCloseBtn" class="fas fa-times"></button>
+      </div>
+      </header>
+      <main id="msgerCPChat" class="msger-chat">
+      <div class="search-container">
+      <input
+      id="searchPeerBarName"
+      type="text"
+      placeholder=" � Search peer by name..."
+      name="search"
+      onkeyup="searchPeer()"
+      />
+      </div>
+      <br />
+      <div id="msgerCPList"></div>
+      </main>
+      </section>
+      </section>
+    // End private msg
+    // End chat room
+    // Start my settings
+    section#mySettings
+      header#mySettingsHeader
+        h5 Meeting Settings
+        button#mySettingsCloseBtn
+          img(src='/images/ico_close.svg' alt='Close')
+      main
+        .tab
+          button#tabDevicesBtn.tablinks.active Devices
+          button#tabBandwidthBtn.tablinks Bandwidth
+          button#tabRoomBtn.tablinks Room
+        #tabDevices.tabcontent
+          div
+            label(for='videoSource') Camera
+            select#videoSource
+          br
+          div
+            label(for='audioSource') Microphone
+            select#audioSource
+          br
+          div
+            label(for='audioOutput') Speaker
+            select#audioOutput
+        #tabBandwidth.tabcontent
+          label(for='videoQuality') Video quality
+          select#videoQuality
+            option(value='default') Default
+            option(value='qvgaVideo') QVGA
+            option(value='vgaVideo') VGA
+            option(value='hdVideo') HD
+            option(value='fhdVideo') FULL HD
+            option(value='4kVideo') 4K
+          br
+          br
+          label(for='videoFps') Camera fps
+          select#videoFps
+            option(value='30') 30 fps
+            option(value='25') 25 fps
+            option(value='20') 20 fps
+            option(value='15') 15 fps
+            option(value='10') 10 fps
+            option(value='5') 5 fps
+          br
+          br
+          label(for='screenFps') Screen fps
+          select#screenFps
+            option(value='30') 30 fps
+            option(value='25') 25 fps
+            option(value='20') 20 fps
+            option(value='15') 15 fps
+            option(value='10') 10 fps
+            option(value='5') 5 fps
+        #tabRoom.tabcontent
+          label(for='myPeerNameSet') My name
+          .flex.just-between
+            input#myPeerNameSet(type='text' placeholder='Change name...')
+            button#myPeerNameSetBtn.signup-btn &nbsp;Change
+          br
+          label Participants
+          .flex
+            button#muteEveryoneBtn &nbsp;Mute everyone
+            button#hideEveryoneBtn &nbsp;Hide everyone
+          br
+          label Security
+          button#lockUnlockRoomBtn Lock Meeting
+    img.hide(src='/images/ico_screen1.svg')
+    img.hide(src='/images/ico_screen2.svg')
+    // End my settings
+    // Start whiteboard
+    .whiteboard-cont
+      .colors-cont
+        button#whiteboardCloseBtn.fas.fa-times
+        button#whiteboardFsBtn.fas.fa-expand-alt
+        div
+          input#whiteboardColorPicker(type='color' onchange='setColor(value)')
+        br
+        .white(onclick='setColor("white")')
+        .red(onclick='setColor("#e74c3c")')
+        .yellow(onclick='setColor("#f1c40f")')
+        .green(onclick='setColor("#badc58")')
+        .blue(onclick='setColor("#3498db")')
+        .orange(onclick='setColor("#e67e22")')
+        .purple(onclick='setColor("#9b59b6")')
+        .pink(onclick='setColor("#fd79a8")')
+        .brown(onclick='setColor("#834c32")')
+        .grey(onclick='setColor("#afadad")')
+        button#whiteboardEraserBtn.fas.fa-eraser
+        button#whiteboardSaveBtn.fas.fa-save
+        button#whiteboardCleanBtn.fas.fa-trash
+      canvas#whiteboard
+    // End whiteboard
+    // Start File Send
+    #sendFileDiv
+      img#imgShare.center(src='../images/share.png' alt='Shuffle-share')
+      br
+      #sendFileInfo
+      #sendFilePercentage
+      progress#sendProgress(max='0' value='0')
+      button#sendAbortBtn.fas.fa-stop-circle &nbsp;Abort
+    // End File Send
+    // Start video URL iframe
+    #videoUrlCont
+      #videoUrlHeader
+        button#videoUrlCloseBtn.fas.fa-times
+      br
+      iframe#videoUrlIframe(title='Video Url Player' src='https://www.youtube.com/embed/RT6_Id5-7-s' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen)
+    // End Youtube Iframe
+    //
+      Start game iframe
+      https://github.com/chvin/react-tetris
+    #gameCont
+      #gameHeader
+        button#gameCloseBtn.fas.fa-times
+      br
+      iframe#gameIframe(title='Tetris' src='https://chvin.github.io/react-tetris/?lan=en' frameborder='0')
+    // End game Iframe
+    // Js scripts
+    script(defer src='https://kit.fontawesome.com/d2f1016e6f.js' crossorigin='anonymous')
+    script(defer src='https://webrtc.github.io/adapter/adapter-latest.js')
+    script(defer src='https://cdn.rawgit.com/muaz-khan/DetectRTC/master/DetectRTC.js')
+    script(defer src='https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20')
+    script(defer type='module' src='https://unpkg.com/emoji-picker-element@1')
+    script(defer src='https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js')
+    script(defer src='https://unpkg.com/@popperjs/core@2')
+    script(defer src='https://unpkg.com/tippy.js@6')
+    script(defer src='/js/jquery.min.js')
+    script(defer src='/socket.io/socket.io.js')
+    script(defer src='/js/client.js')
+    // end of Js scripts
+    //
+      the <video> and <audio> tags are all added and removed dynamically
+      in 'onAddStream', 'setupLocalMedia', and 'removePeer'/'disconnect'

@@ -1,0 +1,2503 @@
+/*--------------------------------------------------------------
+# Fade in page on load 
+--------------------------------------------------------------*/
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/*--------------------------------------------------------------
+# Root settings
+--------------------------------------------------------------*/
+
+:root {
+    /* common */
+    --msger-top: 50%;
+    --msger-left: 50%;
+    --msger-height: 680px;
+    --msger-width: 420px;
+
+    /* video iframe */
+    --iframe-width: 640px;
+    --iframe-height: 480px;
+
+    /* game iframe */
+    --game-iframe-width: 520px;
+    --game-iframe-height: 780px;
+
+    /* whiteboard resize */
+    --wb-width: 800px;
+    --wb-height: 600px;
+
+    /* my settings */
+    --mySettings-select-w: 100%;
+
+    /* btns hover scale 110% zoom */
+    --btns-hover-scale: scale(1.1);
+
+    /* video elem border color */
+    --elem-border-color: grey 1px solid;
+
+    /* left buttons bar vertical default */
+    --btns-top: 50%;
+    --btns-right: 0%;
+    --btns-left: 20px;
+    --btns-margin-left: 0px;
+    --btns-width: 40px;
+    --btns-flex-direction: column;
+
+    /* left buttons bar horizontal
+    --btns-top: 95%;
+    --btns-right: 25%;
+    --btns-left: 50%;
+    --btns-margin-left: -300px;
+    --btns-width: 600px;
+    --btns-flex-direction: row;
+    */
+
+    /* neon theme default */
+    --body-bg: #1C1F2E;
+    --msger-bg: #1C1F2E;
+    --msger-private-bg: black;
+    --left-msg-bg: #da05f3;
+    --private-msg-bg: #f77070;
+    --right-msg-bg: #579ffb;
+    --box-shadow: 3px 2px 4px rgb(13 14 22 / 5%);
+    --btn-bg: white;
+    --btn-color: black;
+    --btn-opc: 1;
+    --wb-bg: #777982;
+    --wb-hbg: #777982;
+    --my-settings-label-color: #00BE5B;
+    --hover-color: rgb(8, 189, 89);
+    --video-object-fit: cover;
+}
+
+* {
+    outline: none;
+    font-family: 'Gilroy', sans-serif;
+}
+
+html {
+    min-height: 100%;
+}
+
+/*--------------------------------------------------------------
+# Body setup
+--------------------------------------------------------------*/
+
+body {
+    background: var(--body-bg);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    opacity: 0; /* make things invisible upon start */
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 0.3s;
+    -moz-animation-duration: 0.3s;
+    animation-duration: 0.3s;
+    overflow: hidden;
+}
+
+/*--------------------------------------------------------------
+# Loading...
+--------------------------------------------------------------*/
+.loading-bg {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 999;
+}
+#loadingDiv, #waitingDiv {
+    position: absolute;
+    color: white;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    transform: translate(-50%, -50%);
+    border-radius: 14px;
+    text-align: center;
+    width: 30%;
+    padding-top: 40px;
+    min-width: 360px;
+    max-width: 380px;
+}
+#waitingBg {
+    display: none;
+}
+#loadingDiv h1,
+#waitingDiv h1 {
+    font-size: 24px;
+    color: #2C2C2C;
+    line-height: 30px;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 20px;
+}
+#loadingDiv p,
+#waitingDiv p {
+    font-size: 14px;
+    line-height: 24px;
+    color: rgba(44, 44, 44, 0.6);
+}
+#loadingDiv .no-mic-cam {
+    margin-top: 40px;
+    border: 1px solid #E8ECEE;
+    box-sizing: border-box;
+    border-radius: 12px;
+    text-align: center;
+}
+#loadingDiv .no-mic-cam img {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+#loadingDiv .no-mic-cam p {
+    margin-bottom: 30px;
+}
+
+/*--------------------------------------------------------------
+# Pulse class effect
+--------------------------------------------------------------*/
+
+.pulsate {
+    animation: pulsate 3s ease-out;
+    animation-iteration-count: infinite;
+    -webkit-animation: pulsate 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+    opacity: 0.5;
+}
+
+@-webkit-keyframes pulsate {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+@keyframes pulsate {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+@-webkit-keyframes pulsate {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+/*--------------------------------------------------------------
+# Status menù (time-name-audio-video)
+--------------------------------------------------------------*/
+
+.statusMenu {
+    z-index: 7;
+    position: absolute;
+    padding: 10px;
+    font-family: 'Gilroy_Bold';
+    width: 100%;
+    cursor: default;
+    /* center */
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.align-center { text-align: center !important; }
+.align-right { text-align: right !important; }
+.statusMenu h4 {
+    background: rgba(28, 31, 46, 1);
+    opacity: 0.7;
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    display: inline-block;
+    padding: 8px 10px;
+    padding-top: 10px;
+    margin: 0;
+    font-family: 'Gilroy_Bold';
+    font-size: 13px;
+    color: white;
+    line-height: 16px;
+    padding-right: 30px;
+    position: relative;
+}
+.statusMenu h4::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #17E466;
+    border-radius: 4px;
+    top: 13px;
+    right: 8px;
+}
+.statusMenu button {
+    margin-left: 5px;
+    color: white;
+    background: rgb(28, 31, 46);
+    opacity: 0.7;
+    border-radius: 8px;
+    display: inline-block;
+    border: none;
+    padding: 8px 10px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+.statusMenu p:hover,
+.statusMenu h4:hover,
+.statusMenu button:hover {
+    transition: all 0.3s ease-in-out;
+}
+
+/*--------------------------------------------------------------
+# Avatar Image on video OFF
+--------------------------------------------------------------*/
+
+.videoAvatarImage {
+    z-index: 8;
+    position: absolute;
+    /*center*/
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    width: 50%;
+    height: 50%;
+}
+
+/*--------------------------------------------------------------
+# Left buttons
+--------------------------------------------------------------*/
+
+#buttonsBar {
+    z-index: 12;
+    display: none;
+    position: absolute;
+    padding: 15px;
+
+    top: var(--btns-top);
+    right: var(--btns-right);
+    left: var(--btns-left);
+    margin-left: var(--btns-margin-left);
+    width: var(--btns-width);
+    flex-direction: var(--btns-flex-direction);
+
+    justify-content: space-around;
+    grid-gap: 0.4rem;
+
+    -webkit-transform: translate(0%, -50%);
+    -ms-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
+
+    border-radius: 20px;
+    background: transparent;
+    box-shadow: var(--box-shadow);
+
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+    overflow: hidden;
+}
+
+#buttonsBar button {
+    border: none;
+    font-size: 1.5rem;
+    transition: all 0.3s ease-in-out;
+    background: var(--btn-bg);
+    padding: 4px;
+    border-radius: 5px;
+    opacity: var(--btn-opc);
+}
+
+#buttonsBar button:focus {
+    outline: none;
+}
+
+#initAudioBtn,
+#initVideoBtn {
+    border: none;
+    border-radius: 5px;
+    width: 40px;
+    background: white;
+    color: black;
+    font-size: 1.5rem;
+    padding: 4px;
+    transition: all 0.3s ease-in-out;
+}
+
+#shareRoomBtn,
+#screenShareBtn,
+#recordStreamBtn,
+#fullScreenBtn,
+#swapCameraBtn,
+#chatRoomBtn,
+#myHandBtn,
+#whiteboardBtn,
+#fileShareBtn,
+#gameBtn,
+#mySettingsBtn,
+#aboutBtn,
+#leaveRoomBtn {
+    color: var(--btn-color);
+}
+
+#shareFileBtn img {
+    margin-right: 2px;
+}
+#screenShareBtn img {
+    margin-left: 2px;
+}
+
+#audioBtn,
+#videoBtn {
+    color: white;
+}
+.mt-15 {
+    margin-top: 15px;
+}
+
+/* 
+#initAudioBtn:hover,
+#initVideoBtn:hover,
+#shareRoomBtn:hover,
+#audioBtn:hover,
+#videoBtn:hover,
+#screenShareBtn:hover,
+#recordStreamBtn:hover,
+#fullScreenBtn:hover,
+#swapCameraBtn:hover,
+#chatRoomBtn:hover,
+#myHandBtn:hover,
+#fileShareBtn:hover,
+#gameBtn:hover,
+#whiteboardBtn:hover,
+#mySettingsBtn:hover,
+#aboutBtn:hover {
+    color: var(--hover-color);
+    transform: var(--btns-hover-scale);
+} */
+#leaveRoomBtn:hover {
+    color: red;
+    transform: var(--btns-hover-scale);
+}
+
+.fa-microphone-slash,
+.fa-video-slash {
+    color: red !important;
+}
+.fa-video-slash::before {
+    content: "\f03d" !important;
+}
+.fa-microphone-slash::before {
+    content: "\f130" !important;
+}
+
+/*--------------------------------------------------------------
+# Chat room aka msger
+--------------------------------------------------------------*/
+.msger-draggable {
+    z-index: 10;
+    display: none;
+    position: fixed;
+    /* center screen */
+    top: var(--msger-top);
+    left: var(--msger-left);
+    transform: translate(-50%, -50%);
+    /* end center screen  */
+    height: var(--msger-height);
+    width: var(--msger-width);
+    background: var(--msger-bg);
+    /* text-align: justify; */
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+}
+
+.msger {
+    background: white;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+.memparty-sidebar {
+    width: 100%;
+    height: 100vh;
+    background: white;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+.memparty-sidebar .memparty-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 25px 20px;
+}
+.layoutClose {
+    display: none;
+    float: right;
+    margin-top: -20px;
+    margin-right: -15px;
+    border: none;
+    background: none;
+}
+#memChatClose {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+.memparty-header div {
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 19px;
+    color: rgba(0, 0, 0, 0.85);
+}
+.memparty-invite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#memparty-invite-btn {
+    width: 80%;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    text-align: center;
+    background: white;
+    border: 1px solid #00BE5B;
+    border-radius: 12px;
+    padding: 17px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16px;
+    color: #00BE5B;
+    cursor: pointer;
+}
+#memparty-copy-link {
+    width: 80%;
+    border-radius: 12px;
+    text-align: center;
+    background: #00BE5B;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 17px;
+    font-size: 14px;
+    line-height: 16px;
+    color: white;
+    cursor: pointer;
+}
+.memparty-content {
+    padding: 20px;
+    max-height: -moz-calc(100vh - 265px);
+    max-height: -webkit-calc(100vh - 265px);
+    max-height: calc(100vh - 265px);
+    overflow: auto;
+}
+.memparty-content::-webkit-scrollbar {
+    width: 5px;
+}
+.memparty-content::-webkit-scrollbar-thumb {
+    background: black;
+}
+.memparty-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.memparty-item {
+    display: flex;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    justify-content: space-between;
+    align-items: center;
+}
+.memparty-item:last-child {
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.memparty-item button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.memparty-item button:hover, .memparty-item button.checked {
+    filter: brightness(1);
+    transition: all 0.3s ease-in-out;
+}
+.memparty-item > div {
+    display: flex;
+    align-items: center;
+}
+.memparty-item .memparty-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: inline-block;
+}
+.memparty-item .memparty-name {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 14px;
+    line-height: 16px;
+    color: rgba(0, 0, 0, 0.5);
+}
+/*--------------------------------------------------------------
+# Chat room header
+--------------------------------------------------------------*/
+
+.msger-header {
+    display: flex;
+    justify-content: center;
+    padding: 15px 10px;
+    color: rgba(0, 0, 0, 0.85);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.msger-private-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgb(0, 0, 0);
+    color: #666;
+}
+
+.msger-header-options button {
+    border: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease-in-out;
+    background: rgb(0, 0, 0);
+    color: #fff;
+    border-radius: 5px;
+    transition: background 0.23s;
+}
+.msger-header-options button:hover {
+    color: var(--hover-color);
+    transform: var(--btns-hover-scale);
+    transition: all 0.3s ease-in-out;
+}
+
+/*--------------------------------------------------------------
+# Chat room output area
+--------------------------------------------------------------*/
+.msger-chat-wrap {
+    height: -moz-calc(100vh - 180px);
+    height: -webkit-calc(100vh - 180px);
+    height: calc(100vh - 180px);
+    overflow-y: auto;
+    padding: 10px;
+}
+.msger-chat-wrap::-webkit-scrollbar {
+    width: 5px;
+}
+.msger-chat-wrap::-webkit-scrollbar-thumb {
+    background: black;
+}
+.msger-chat-wrap::-webkit-scrollbar-track {
+    background: transparent;
+}
+.msger-chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: white;
+    min-height: -moz-calc(100vh - 200px);
+    min-height: -webkit-calc(100vh - 200px);
+    min-height: calc(100vh - 200px);
+}
+.msger-chat::-webkit-scrollbar {
+    width: 5px;
+}
+.msger-chat::-webkit-scrollbar-track {
+    background: transparent;
+}
+.msger-chat::-webkit-scrollbar-thumb {
+    background: black; /*aqua;*/
+}
+
+.msg {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.msg:last-of-type {
+    margin: 0;
+}
+/* common */
+
+.msg-img {
+    width: 36px;
+    height: 34px;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 8px;
+}
+
+.private-msg-bubble,
+.msg-bubble {
+    width: 100%;
+}
+
+.msg-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    line-height: 15px;
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.msg-info-name {
+    margin-left: 15px;
+}
+
+.msg-info-time {
+    font-size: 0.85em;
+}
+
+.msg-text {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #5E5E5E;
+    display: inline-block;
+    padding: 8px 15px;
+    margin-top: 3px;
+}
+.msger-header-title {
+    padding-top: 15px;
+    font-size: 16px;
+    line-height: 19px;
+    font-family: 'Gilroy_Bold';
+    color: rgba(0, 0, 0, 0.85);
+}
+.msger-header-title img {
+    margin: 0 10px 2px 5px;
+}
+
+#chat-msg-a {
+    color: #5E5E5E;
+}
+
+.my-msg {
+    background: #00BE5B;
+    color: white;
+    border: 1px solid rgba(112, 124, 151, 0.25);
+    border-radius: 12px 12px 0 12px;
+}
+.other-msg {
+    background: white;
+    color: #5E5E5E;
+    border: 1px solid rgba(112, 124, 151, 0.25);
+    border-radius: 12px 12px 12px 0;
+}
+
+/*--------------------------------------------------------------
+# Chat room input area
+--------------------------------------------------------------*/
+.msger-inputarea {
+    height: 103px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.msger-extra-input,
+.msger-extra-btn {
+    justify-content: space-between;
+    padding: 10px;
+}
+.msger-extra-btn img svg path {
+    fill: white;
+}
+.msger-input {
+    flex: 1;
+    background: none;
+    font-size: 14px;
+    line-height: 16px;
+    padding-left: 10px;
+    border: none;
+    color: rgba(0, 0, 0, 0.5);
+}
+.msger-extra-btn > div {
+    display: flex;
+}
+#msgerVideoUrlBtn,
+#msgerEmojiBtn,
+#msgerNewFileBtn,
+#msgerSoundRecBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+    filter: brightness(0.3);
+}
+#msgerEmojiBtn {
+    margin: 0;
+}
+#msgerSendBtn {
+    background: #00BE5B;
+    border-radius: 12px;
+    padding: 9px 18px;
+    border: none;
+    color: white;
+    font-size: 14px;
+    line-height: 17px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#msgerVideoUrlBtn:hover,
+#msgerEmojiBtn:hover,
+#msgerNewFileBtn:hover,
+#msgerSoundRecBtn:hover {
+    transform: var(--btns-hover-scale);
+    transition: all 0.3s ease-in-out;
+}
+.right-msg {
+    flex-direction: row-reverse;
+}
+.right-msg .msg-bubble {
+    text-align: right;
+}
+.right-msg .msg-img {
+    margin-right: 0;
+    margin-left: 10px;
+}
+.right-msg .msg-info {
+    flex-direction: row-reverse;
+}
+.right-msg .msg-info-name {
+    margin-left: 0;
+    margin-right: 15px;
+}
+.footer-custom {
+    font-size: 14px !important;
+    color: rgba(44, 44, 44, 0.65) !important;
+    border: none !important;
+}
+.footer-custom p {
+    margin-bottom: 0;
+}
+.footer-custom p a {
+    text-decoration: none;
+    color: #00BE5B;
+}
+
+/*--------------------------------------------------------------
+# Chat Connected Peers 
+--------------------------------------------------------------*/
+
+#msgerCP {
+    z-index: 11;
+    display: none;
+    cursor: default;
+    top: var(--msger-top);
+    left: var(--msger-left);
+    height: var(--msger-height);
+    width: var(--msger-width);
+    background: var(--msger-private-bg);
+    /* center */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* fade in */
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+    overflow: hidden;
+}
+
+#msgerCPChat {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--msger-bg);
+}
+
+#msgerCPList {
+    border: grey 1px solid;
+}
+
+#msgerCPList button {
+    border: none;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+    background: rgb(0, 0, 0);
+    color: #fff;
+    border-radius: 5px;
+    transition: background 0.23s;
+}
+
+#msgerCPList button:hover {
+    color: var(--hover-color);
+    transform: var(--btns-hover-scale);
+    transition: all 0.3s ease-in-out;
+}
+
+#searchPeerBarName {
+    width: 94.5%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: transparent;
+    color: #ffffff;
+    border: grey 1px solid;
+}
+
+.msger-peer-inputarea {
+    display: flex;
+    padding: 10px;
+    background: var(--msger-bg);
+}
+
+.msger-peer-inputarea * {
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 1em;
+    color: white;
+}
+
+/*--------------------------------------------------------------
+# Emoji picker
+--------------------------------------------------------------*/
+
+#msgerEmojiPicker {
+    z-index: 13;
+    display: none;
+    position: absolute;
+    width: 99%;
+    height: -moz-calc(100% - 180px);
+    height: -webkit-calc(100% - 180px);
+    height: calc(100% - 180px);
+    top: 76px;
+    left: 1px;
+    /* fade in */
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+    overflow: hidden;
+}
+
+emoji-picker {
+    width: 100%;
+    height: 100%;
+    --num-columns: 8;
+    --emoji-size: 1rem;
+    --background: #FFFFFF;
+    --category-emoji-size: 20px;
+    --border-color: #E5E5E5;
+    --button-hover-background: none;
+}
+
+/*--------------------------------------------------------------
+# Video Grid
+--------------------------------------------------------------*/
+
+#myVideo.mirror {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: var(--video-object-fit);
+    cursor: pointer;
+}
+video:fullscreen {
+    object-fit: contain; /* cover; */
+}
+.video {
+    float: left;
+    width: 32%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+}
+.video.one {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+.video.two {
+    --video-object-fit: cover;     
+    /* --video-object-fit: contain; */
+}
+.video.three {
+    --video-object-fit: cover;     
+}
+.video.four {
+    --video-object-fit: cover;     
+}
+.video.five {
+    --video-object-fit: cover;     
+}
+.video.six {
+    --video-object-fit: cover;     
+}
+
+/*--------------------------------------------------------------
+# Handle video elements on screen resize
+--------------------------------------------------------------*/
+
+@media only screen and (max-width: 720px) {
+    /* 960px */
+    .video {
+        float: left;
+        width: 50vw;
+        height: 25vh;
+        overflow: hidden;
+    }
+    .video.two {
+        width: 99vw;
+        height: 49vh;
+        --video-object-fit: cover;
+         
+    }
+    .video.three {
+        width: 99vw;
+        height: 33vh;
+        --video-object-fit: cover;
+         
+    }
+    .video.four {
+        width: 49vw;
+        height: 49vh;
+        --video-object-fit: cover;
+         
+    }
+    .video.five {
+        width: 49vw;
+        height: 33vh;
+        --video-object-fit: cover;
+         
+    }
+    .video.six {
+        width: 49vw;
+        height: 33vh;
+        --video-object-fit: cover;
+         
+    }
+}
+
+/*--------------------------------------------------------------
+# Room QR
+--------------------------------------------------------------*/
+
+#qrRoomContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*--------------------------------------------------------------
+# My settings
+--------------------------------------------------------------*/
+
+#mySettings {
+    display: none;
+    z-index: 17;
+    /* center */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* gui */
+    margin: auto;
+    min-width: 380px;
+    background: white;
+    mix-blend-mode: normal;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    box-shadow: 3px 2px 4px rgba(13, 14, 22, 0.05);
+    border-radius: 14px;
+    /* fade in */
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+    overflow: hidden;
+}
+
+#mySettingsHeader {
+    cursor: move;
+    position: relative;
+    padding-top: 35px;
+    padding-bottom: 30px;
+}
+#mySettingsHeader h5 {
+    text-align: center;
+    font-size: 20px;
+    line-height: 24px;
+    color: rgba(44, 44, 44, 0.85);
+    margin: 0;
+}
+
+#mySettings label {
+    color: rgba(44, 44, 44, 0.85);
+    font-size: 14px;
+    line-height: 16px;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+#mySettings select {
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 10px 25px;
+    width: 100%;
+    color: #2C2C2C;
+    border: 1px solid #E8ECEE;
+    appearance: none;
+    position: relative;
+    cursor: pointer;
+    background: url('../images/ico_arrowdown.svg') no-repeat 96% center white;
+}
+
+#mySettings select:focus,
+#mySettings select:active {
+    border: 1px solid #4AA853;
+}
+
+#mySettingsCloseBtn {
+    border: none;
+    font-size: 1rem;
+    font-weight: 100;
+    background: transparent;
+    color: #fff;
+    position: absolute;
+    right: 12px;
+    font-family: 'Gilroy';
+    cursor: pointer;
+    top: 8px;
+    transition: background 0.23s;
+}
+
+#mySettingsCloseBtn:hover {
+    color: var(--hover-color);
+    /* transform: var(--btns-hover-scale); */
+    transition: all 0.3s ease-in-out;
+}
+
+#myPeerNameSet {
+    font-size: 14px;
+    line-height: 24px;
+    padding: 10px 25px;
+    border-radius: 8px;
+    width: 200px;
+    color: #2C2C2C;
+    border: 1px solid #E8ECEE;
+    background: white;
+}
+
+#muteEveryoneBtn,
+#hideEveryoneBtn,
+#lockUnlockRoomBtn {
+    font-size: 14px;
+    line-height: 24px;
+    padding: 10px 25px;
+    border-radius: 8px;
+    width: 45%;
+    margin-right: 15px;
+    cursor: pointer;
+    color: #2C2C2C;
+    border: 1px solid #E8ECEE;
+    background: white;
+}
+
+#updateScreenType {
+    background: none;
+    color: rgba(255, 255, 255, 0.4);
+    border: 1px solid #1C1F2E;
+    background: #1C1F2E;
+    cursor: pointer;
+    padding: 6px 25px;
+    border-radius: 8px;
+}
+
+#myPeerNameSetBtn {
+    font-family: 'Gilroy_Bold';
+    padding: 7px 25px;
+    border-radius: 8px !important;
+}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    background: #F3F3F3;
+    display: flex;
+    justify-content: space-around;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 15px 20px;
+    transition: 0.3s;
+    color: #B2B3B8;
+    font-weight: normal;
+    line-height: 16px;
+    background: none;
+    font-size: 14px;
+    opacity: 0.85;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    color: #00BE5B;
+    background: none;
+    font-family: 'Gilroy_Bold';
+    transition: all 0.3s ease-in-out;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    color: #00BE5B;
+    font-family: 'Gilroy_Bold';
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 20px;
+    border-top: none;
+}
+
+/* on open display devices tab */
+#tabDevices {
+    display: block;
+}
+
+/*--------------------------------------------------------------
+# Swal2
+--------------------------------------------------------------*/
+.swal2-image {
+    max-width: 100%;
+    margin: 0 auto;
+    width: 90px;
+}
+.swal2-validation-message,
+.swal2-title,
+.swal2-content,
+.swal2-input {
+    text-align: center;
+    color: rgba(44, 44, 44, 0.65) !important;
+    background-color: transparent !important;
+}
+.swal2-file {
+    color: rgba(0, 0, 0, 0.85) !important;
+    /* background: linear-gradient(0deg, #F3F3F3, #F3F3F3), #242736 !important; */
+    font-size: 12px !important;
+    width: 220px !important;
+    cursor: pointer;
+}
+.swal2-html-container {
+    color: rgb(44, 44, 44, 0.6) !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    width: 100%;
+    font-size: 14px !important;
+    line-height: 24px !important;
+}
+
+/* 
+.swal2-popup {
+    font-size: 0.8rem !important;
+}
+*/
+.swal2-select {
+    background-color: black !important;
+    color: white !important;
+    border-radius: 6px !important;
+}
+
+/*--------------------------------------------------------------
+# Pulse class effect
+--------------------------------------------------------------*/
+
+.pulsate {
+    animation: pulsate 3s ease-out;
+    animation-iteration-count: infinite;
+    -webkit-animation: pulsate 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+    opacity: 0.5;
+}
+
+@-webkit-keyframes pulsate {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+@keyframes pulsate {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+@-webkit-keyframes pulsate {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+/*--------------------------------------------------------------
+# Send File
+--------------------------------------------------------------*/
+
+#sendFileDiv {
+    z-index: 18;
+    display: none;
+    min-width: 320px;
+    /* center */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* gui */
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    margin: auto;
+    box-shadow: var(--box-shadow);
+    padding: 10px;
+    color: white;
+    font-size: 1rem;
+    /* fade in */
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+    overflow: hidden;
+}
+
+#sendAbortBtn {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    background-color: transparent;
+    transition: background 0.23s;
+}
+#sendAbortBtn:hover {
+    color: rgb(255, 0, 0);
+    transform: var(--btns-hover-scale);
+    transition: all 0.3s ease-in-out;
+}
+
+progress {
+    width: 0;
+    min-width: 100%;
+}
+
+#imgShare:hover {
+    cursor: move;
+}
+
+/*--------------------------------------------------------------
+# Video IFrame
+--------------------------------------------------------------*/
+
+#videoUrlCont {
+    z-index: 15;
+    display: none;
+    width: var(--iframe-width);
+    height: var(--iframe-height);
+    box-shadow: var(--box-shadow);
+    border-radius: 5px;
+    /* center */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* fade in */
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+}
+#videoUrlHeader {
+    position: absolute;
+    display: flex;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    cursor: move;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+#videoUrlHeader button {
+    height: 30px;
+    width: 30px;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    margin-left: 10px;
+    border: none;
+    color: white;
+    background: black;
+}
+#videoUrlHeader button:hover {
+    color: var(--hover-color);
+    transform: var(--btns-hover-scale);
+    transition: all 0.3s ease-in-out;
+}
+#videoUrlIframe {
+    width: var(--iframe-width);
+    height: var(--iframe-height);
+    border-radius: 5px;
+}
+
+/*--------------------------------------------------------------
+# Game IFrame
+--------------------------------------------------------------*/
+
+#gameCont {
+    z-index: 16;
+    display: none;
+    width: var(--game-iframe-width);
+    height: var(--game-iframe-height);
+    box-shadow: var(--box-shadow);
+    border-radius: 10px;
+    /* center */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* fade in */
+    -webkit-animation: fadeIn ease-in 1;
+    -moz-animation: fadeIn ease-in 1;
+    animation: fadeIn ease-in 1;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+}
+#gameHeader {
+    position: absolute;
+    display: flex;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    cursor: move;
+    border-radius: 5px;
+    background-color: transparent;
+}
+#gameHeader button {
+    font-size: 1.5rem;
+    margin: 5px;
+    border: none;
+    color: black;
+    background: transparent;
+    border-radius: 5px;
+}
+#gameHeader button:hover {
+    color: var(--hover-color);
+    transform: var(--btns-hover-scale);
+    transition: all 0.3s ease-in-out;
+}
+#gameIframe {
+    width: var(--game-iframe-width);
+    height: var(--game-iframe-height);
+    border-radius: 5px;
+}
+
+/*--------------------------------------------------------------
+# About
+--------------------------------------------------------------*/
+
+#about {
+    cursor: default;
+    /*text-decoration: none;*/
+}
+
+#about b {
+    color: #00BE5B;
+}
+
+#about a {
+    color: white;
+    text-decoration: none;
+}
+
+#about a:hover {
+    color: var(--hover-color);
+    transition: all 0.3s ease-in-out;
+}
+
+#about img {
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+#about button {
+    border: none;
+    width: 170px;
+    height: 40px;
+    font-size: 1.2rem;
+    background: linear-gradient(100deg, #376df9 0, #ff5fa0 75%, #ffc55a 100%);
+    box-shadow: 0 0 6px 0 rgb(251 255 0 / 82%);
+    color: #ffffff;
+    transition: background 0.23s;
+    cursor: pointer;
+}
+
+#about button:hover {
+    font-family: 'Gilroy_Bold';
+}
+
+/*--------------------------------------------------------------
+# Other
+--------------------------------------------------------------*/
+
+#webRTCSeo {
+    /* just for SEO */
+    display: none;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+/*
+z-index
+7 statusMenu -----
+- peer name
+- hand status
+- video status
+- audio status
+- kick out
+------------------
+8 video avatar img
+9 count time
+10 chat room
+11 chat peers private msg
+12 left buttons
+13 chat emoji
+14 whiteboard
+15 video iframe
+16 game iframe
+17 settings
+18 send File Div
+*/
+/* Custom Style */
+.flex {
+    display: flex;
+}
+.just-between {
+    justify-content: space-between;
+}
+.align-center {
+    align-items: center;
+}
+.swal2-container.swal2-backdrop-show, 
+.swal2-container.swal2-noanimation {
+    background: rgba(28, 31, 46, 0.1) !important;
+    backdrop-filter: blur(15px);
+}
+.swal2-container .swal2-popup {
+    background: white !important;
+    mix-blend-mode: normal;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    box-shadow: 3px 2px 4px rgba(13, 14, 22, 0.05);
+    border-radius: 14px;
+    padding: 25px 35px;
+    width: 480px;
+    font-family: 'Gilroy', sans-serif !important;
+}
+.whoareyou-container.swal2-container {
+    background: white !important;
+}
+.whoareyou-container .swal2-popup {
+    width: 360px;
+    border: 1px solid #E8ECEE;
+    border-radius: 12px;
+    padding: 0 0 40px 0 !important;
+}
+.whoareyou-container #previewCamera {
+    width: 100%;
+    height: 240px;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+}
+.whoareyou-container #previewCamera video {
+    background: #EEE;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: unset;
+    border-radius: 12px 12px 0 0;
+}
+.whoareyou-container #previewCamera #initVideoButton,
+.whoareyou-container #previewCamera #initAudioButton {
+    position: absolute;
+    bottom: 20px;
+    width: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    border: 1px solid white;
+    border-radius: 8px;
+    background: rgba(28, 46, 35, 0.2);
+    cursor: pointer;
+}
+.whoareyou-container #previewCamera #initVideoButton::before,
+.whoareyou-container #previewCamera #initAudioButton::before {
+    display: none;
+}
+.whoareyou-container #previewCamera #initVideoButton {
+    left: calc(50% - 40px);
+}
+.whoareyou-container #previewCamera #initAudioButton {
+    
+    left: calc(50% + 5px);
+}
+.enter-name-wrap {
+    overflow: hidden;
+}
+.enter-name-wrap h2 {
+    font-size: 18px;
+    line-height: 28px;
+    margin: 0;
+    margin-top: 20px;
+    font-family: 'Gilroy_Bold';
+    text-align: center;
+    color: #2C2C2C;
+    margin-top: 15px;
+}
+.enter-name-wrap input {
+    display: block;
+    width: 100%;
+    background: linear-gradient(0deg, #F3F3F3, #F3F3F3), #242736;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    box-shadow: 3px 2px 4px rgba(13, 14, 22, 0.05);
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 15px 20px;
+    color: rgba(44, 44, 44, 0.65);
+    width: 80%;
+    margin: 20px auto;
+    margin-bottom: 10px;
+}
+.swal2-validation-message {
+    padding: 0 !important;
+    font-size: 0.7em !important;
+}
+.swal2-validation-message::before {
+    width: 1.1em !important;
+    min-width: 1.1em !important;
+    height: 1.1em !important;
+    margin: 0 .5em;
+    line-height: 1.2em !important;
+}
+.join-meeting-btn {
+    background: #00BE5B !important;
+    border-radius: 12px !important;
+    color: white !important;
+    font-size: 14px !important;
+    line-height: 16px;
+    padding: 16px 0 !important;
+    width: 80%;
+    font-family: 'Gilroy_Bold' !important;
+}
+.meeting-controls {
+    padding: 20px 0;
+    /* border-top: 1px solid rgba(255,255,255,0.1); */
+    color: white;
+    width: 100%;
+    height: 80px;
+}
+.room-info-wrap p {
+    display: inline-block;
+    margin: 0;
+    padding: 8px 2px 9px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    background: rgba(28, 31, 46, 0.6);
+    border-radius: 8px;
+    text-align: left;
+    margin-left: 18px;
+    color: white;
+    height: 40px;
+    position: relative;
+    width: 166px;
+}
+.room-info-wrap p::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 24px;
+    background: #666973;
+    top: 0;
+    border-radius: 0 8px 8px 0;
+    right: 0;
+    z-index: 1;
+}
+.room-info-wrap img {
+    z-index: 5;
+    position: absolute;
+    right: 6px;
+    top: 14px;
+    cursor: pointer;
+}
+#videoMediaContainer {
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    margin-top: 15px;
+    position: relative;
+}
+.screen-type1 {
+    display: block;
+}
+.screen-type2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#myVideoLayoutType {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgb(28, 31, 46);
+    opacity: 0.7;
+    border-radius: 8px;
+    display: inline-block;
+    border: none;
+    padding: 6px 8px;
+    cursor: pointer;
+}
+.RoomLogoStatus {
+    position: absolute;
+    top: 25px;
+    left: 30px;
+    background: rgba(28, 31, 46, 0.7);
+    border-radius: 8px;
+    display: inline-block;
+    border: none;
+    padding: 8px 10px;
+    z-index: 990;
+    display: none;
+}
+.RoomLogoStatus img {
+    height: 20px;
+    width: auto;
+}
+.hide {
+    display: none;
+}
+/* #videoMediaContainer > .one {
+    width: 90%;
+} */
+#videoMediaContainer > .one #myVideoLayoutType {
+    display: none;
+}
+#curMeetingName {
+    font-size: 16px;
+    line-height: 19px;
+    color: rgba(44, 44, 44, 0.65);
+}
+/* .screen-type1 > .one {
+    margin-left: 5%;
+} */
+.screen-type2 > .two {
+    width: 49.5%;
+    height: 100%;
+}
+.screen-type2 > .two:first-child {
+    margin-right: 1%;
+}
+.screen-type2 > .three {
+    width: 33%;
+    height: 100%;
+    margin-right: 0.5%;
+}
+.screen-type2 > .three:last-child {
+    margin-right: 0;
+}
+.screen-type2 > .four {
+    width: 49.5%;
+    height: 49.5%;
+}
+.screen-type2 > .four:nth-child(2n+1) {
+    margin-right: 1%;
+    margin-bottom: 1%;
+}
+.screen-type2 > .five,
+.screen-type2 > .six {
+    width: 33%;
+    height: 49.5% !important;
+    margin-right: 0.5%;
+    margin-bottom: 1%;
+}
+.screen-type2 > .five:nth-child(3n),
+.screen-type2 > .six:nth-child(3n) {
+    margin-right: 0;
+}
+
+.screen-type1 > .two {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 99;
+}
+.screen-type1 > .two:last-child, 
+.screen-type1 > .three:last-child,
+.screen-type1 > .four:last-child,
+.screen-type1 > .five:last-child,
+.screen-type1 > .six:last-child {
+    position: absolute;
+    max-width: 300px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    filter: drop-shadow(3px 2px 4px rgba(13, 14, 22, 0.298377));
+    z-index: 101;
+}
+
+.screen-type1 > .two:last-child {
+    width: 25%;
+    height: 30%;
+    right: 15px;
+    top: 15px;
+}
+.screen-type1 > .three {
+    width: 49.5%;
+    height: 100%;
+}
+.screen-type1 > .three:first-child {
+    margin-right: 1%;
+}
+.screen-type1 > .three:last-child {
+    width: 22%;
+    height: 27%;
+    right: 15px;
+    bottom: 15px;
+}
+
+.screen-type1 > .four {
+    width: 33%;
+    height: 100%;
+    margin-left: 0.5%;
+}
+.screen-type1 > .four:first-child {
+    margin-left: 0;
+}
+.screen-type1 > .four:last-child {
+    margin-left: 0;
+    width: 22%;
+    height: 27%;
+    right: 15px;
+    bottom: 15px;
+}
+
+.screen-type1 > .five {
+    width: 49.5%;
+    height: 49.5%;
+}
+.screen-type1 > .five:nth-child(2n+1) {
+    margin-right: 1%;
+    margin-bottom: 1%;
+}
+.screen-type1 > .five:last-child {
+    margin: 0;
+    width: 22%;
+    height: 27%;
+    right: 15px;
+    bottom: 15px;
+}
+
+.screen-type1 > .six {
+    width: 33%;
+    height: 49.5%;
+    margin-right: 0.5%;
+}
+.screen-type1 > .six:nth-child(1),
+.screen-type1 > .six:nth-child(2),
+.screen-type1 > .six:nth-child(3) {
+    margin-bottom: 1%;
+}
+.screen-type1 > .six:nth-child(3n) {
+    margin-right: 0;
+}
+.screen-type1 > .six:last-child {
+    margin: 0;
+    width: 22%;
+    height: 27%;
+    right: 15px;
+    bottom: 15px;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    position: relative;
+    min-height: calc(100vh - 100px);
+}
+.clear {
+    clear: both;
+}
+.main-wrapper .invite-people-wrap {
+    position: absolute;
+    left: 37px;
+    top: 28px;
+    z-index: 900;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    padding: 25px 20px;
+    width: 350px;
+    display: none;
+    background: white;
+    backdrop-filter: blur(8.15485px);
+    z-index: 1001;
+}
+.main-wrapper .invite-people-wrap h5 {
+    color: #2C2C2C;
+    font-family: 'Gilroy_Bold';
+    font-size: 15px;
+    line-height: 21px;
+    margin: 0;
+    float: left;
+}
+.main-wrapper .invite-people-wrap img {
+    float: right;
+    cursor: pointer;
+}
+.main-wrapper .invite-people-wrap #inviteLink {
+    float: left;
+}
+.main-wrapper .copy-link-wrap {
+    top: 345px;
+    justify-content: space-between;
+    display: none;
+    padding: 15px 20px;
+    position: absolute;
+    left: 37px;
+    z-index: 900;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    width: 350px;
+    display: none;
+    background: white;
+    backdrop-filter: blur(8.15485px);
+}
+.copy-link-wrap label {
+    font-size: 13px;
+    color: rgba(44, 44, 44, 0.6);
+    font-weight: bold;
+    float: left;
+}
+.copy-link-wrap #closeCopyLink {
+    color: rgba(44, 44, 44, 0.4);
+    font-size: 13px;
+    float: right;
+    cursor: pointer;
+}
+.main-wrapper .invite-party-btn {
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 11px 16px;
+    font-size: 12px;
+    line-height: 13px;
+    text-align: center;
+    background: #00BE5B;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Gilroy_Bold';
+    cursor: pointer;
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+.label {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 17px;
+    color: rgba(44, 44, 44, 0.85);
+    padding-left: 25px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+.mt-10 {
+    margin-top: 10px !important;
+}
+.mt-25 {
+    margin-top: 25px !important;
+}
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+.invite-popup {
+    width: 550px !important;
+    padding: 35px !important;
+}
+.invite-popup .accept-text, 
+.invite-email-wrap {
+    width: 100%;
+    text-align: left;
+}
+#inviteEmail {
+    display: block;
+    width: 350px;
+    margin-right: 15px;
+    padding: 12px 25px;
+    background: #F3F3F3;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #A7A7A7;
+    font-size: 14px;
+    box-shadow: unset;
+    -webkit-appearance: none;
+    line-height: 17px;
+}
+#closeInviteParyBtn {
+    color: #00BE5B;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'Gilroy_Bold';
+}
+.in-meeting-link {
+    background: #F3F3F3;
+    border-radius: 6px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#copyInviteLink {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'Gilroy_Bold';
+}
+.invite-people-wrap p {
+    font-size: 13px;
+    line-height: 20px;
+    color: rgba(44, 44, 44, 0.6);
+    margin-bottom: 15px;
+    width: 90%;
+    word-break: break-word;
+}
+#inviteLink {
+    color: #00BE5B;
+    font-family: 'Gilroy_Bold';
+    margin-bottom: 0;
+}
+#inviteCloseBtn {
+    cursor: pointer;
+}
+.invite-item {
+    padding: 10px 25px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #E5E5E5;
+    align-items: center;
+}
+.invite-item .photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+}
+.invite-item .close {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.invite-item span {
+    font-size: 14px;
+    line-height: 17px;
+    color: rgba(44, 44, 44, 0.65);
+}
+.main-wrapper .main-content {
+    width: 100%;
+    transition: all 0.5s ease;
+    height: 100vh;
+}
+.main-wrapper .main-content .container {
+    height: calc(100% - 100px);
+    /* height: -webkit-fill-available; */
+}
+.main-wrapper .main-content.show-bar {
+    width: calc(100% - 370px);
+    transition: all 0.5s ease;
+}
+.sub-content {
+    width: 0;
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+.main-wrapper .main-content.show-bar + .sub-content {
+    width: 370px;
+    transition: all 0.5s ease;
+}
+.main-wrapper .main-content.show-bar + .sub-content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    height: 100vh;
+}
+.control-div {
+    position: relative;
+    text-align: center;
+}
+.screen-option-left {
+    position: absolute;
+    left: 24px;
+    top: 0;
+}
+.screen-option-center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    position: absolute;
+    left: 40%;
+}
+.screen-option-right {
+    position: absolute;
+    right: 24px;
+    top: 0;
+}
+.control-btn {
+    background: #777982;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    box-shadow: 3px 2px 4px rgba(13, 14, 22, 0.05);
+    border-radius: 12px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+    cursor: pointer;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+.control-btn span {
+    font-size: 12px;
+    line-height: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+.end-meeting-btn {
+    background: #DE3D3D;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    box-shadow: 3px 2px 4px rgba(13, 14, 22, 0.05);
+    border-radius: 12px;
+    line-height: 17px;
+    font-family: 'Gilroy_Bold';
+    padding: 0 10px;
+    height: 40px;
+    width: 60px;
+    display: flex;
+    float: left;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.control-btn:hover, .control-btn.selected {
+    background: #00BE5B;
+}
+#raiseHandBtn {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.right-section-btn {
+    display: inline-block;
+    background: #777982;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    box-shadow: 3px 2px 4px rgba(13, 14, 22, 0.05);
+    border-radius: 12px;
+    height: 40px;
+    width: auto;
+    cursor: pointer;
+    margin-left: 1px;
+    margin-right: 1px;
+    color: rgba(255, 255, 255, 0.5);
+}
+#meetPartyCount {
+    background: #00BE5B;
+    border-radius: 50%;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 23px;
+    width: 20px;
+    height: 20px;
+    margin-top: 4px;
+    float: right;
+    margin-left: 1px;
+}
+.right-section-btn button {
+    border: none;
+    background: none;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+.popup-title {
+    text-align: center;
+    font-size: 20px !important;
+    line-height: 24px !important;
+    color: rgba(44, 44, 44, 0.85) !important;
+    margin-bottom: 1rem !important;
+}
+.popup-text {
+    text-align: center;
+    font-size: 14px !important;
+    line-height: 24px !important;
+    width: 220px;
+    margin: 0 auto !important;
+    color: rgba(44, 44, 44, 0.65) !important;
+}
+.popup-text h2 {
+    margin-top: 0 !important;
+    color: #2C2C2C !important;
+}
+.popup-confirm-btn, .popup-deny-btn {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 3px 2px 4px rgba(13, 14, 22, 0.05);
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    line-height: 14px !important;
+    color: white !important;
+    font-family: 'Gilroy_Bold' !important;
+    padding: 0.625em 2.2em !important;
+}
+.popup-confirm-btn {
+    background: #00BE5B !important;
+}
+.popup-confirm-btn:active, 
+.popup-deny-btn:active,
+.popup-confirm-btn:focus, 
+.popup-deny-btn:focus {
+    outline: unset;
+}
+.popup-deny-btn {
+    background: #DE3D3D !important;
+}
+.swal2-file {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.accept-container,
+.limit-container {
+    grid-template-rows: 0 auto auto .625em !important;
+}
+.accept-popup {
+    padding: 30px 35px !important;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+    border-radius: 10px !important;
+}
+.swal2-container.limit-container.swal2-backdrop-show {
+    background: white !important;
+}
+.limit-container .accept-popup {
+    border: none !important;
+    box-shadow: unset !important;
+    border-radius: unset !important;
+    max-width: 460px !important;
+}
+.accept-text {
+    font-size: 14px !important;
+    line-height: 22px !important;
+    width: auto;
+    padding-top: 10px;
+    margin: 0 auto !important;
+    color: rgba(44, 44, 44, 0.5) !important;
+    display: flex !important;
+}
+.accept-text img {
+    width: 48px;
+    height: 48px;
+    max-width: unset;
+    border-radius: 4px;
+}
+.accept-text .accept-image {
+    margin-right: 35px;
+}
+.accept-confirm-btn, .accept-deny-btn {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 3px 2px 4px rgba(13, 14, 22, 0.05);
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    line-height: 17px !important;
+    font-weight: bold;
+    font-family: 'Gilroy_Bold' !important;
+    padding: 0.625em 2.5em !important;
+}
+.accept-confirm-btn {
+    background: #00BE5B !important;
+    color: white !important;
+}
+.limit-container .accept-confirm-btn,
+.limit-container .code-section {
+    width: 100% !important;
+    font-size: 16px !important;
+    padding: 0.9em 1.5em !important;
+    line-height: 19px !important;
+    border-radius: 8px !important;
+}
+.limit-container .code-section {
+    color: #00BE5B !important;
+    background: #E2FCEE !important;
+    font-family: 'Gilroy_Bold';
+}
+.accept-deny-btn {
+    color: #00BE5B !important;
+    background: #E2FCEE !important;
+}
+.limit-container .accept-deny-btn {
+    background: none !important;
+    color: #2C2C2C !important;
+    margin-top: 20px !important;
+}
+.limit-container .accept-deny-btn:focus,
+.limit-container .accept-deny-btn:active {
+    outline: unset !important;
+}
+#inviteEmailBtn {
+    width: 111px;
+    text-align: center;
+    padding: 9px 0 !important;
+    cursor: pointer;
+}
+.accept-text h2 {
+    color: #2C2C2C;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.limit-container .accept-text h2 {
+    font-size: 24px;
+    line-height: 29px;
+}
+.accept-text p {
+    margin-bottom: 0 !important;
+    text-align: left;
+}
+.limit-container .accept-text p {
+    margin-bottom: 35px !important;
+}
+.accept-popup button:active,
+.accept-popup button:focus {
+    outline: unset !important;
+}
+
+@media only screen and (max-width: 750px) {
+    .container, .container-sm {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .room-info-wrap {
+        display: none;
+    }
+    #videoMediaContainer {
+        margin-top: 10px;
+        height: 100%;
+    }
+    .main-wrapper .invite-people-wrap {
+        top: 47px;
+    }
+    .meeting-controls {
+        padding: 10px 0;
+    }
+    .screen-option-right {
+        left: unset;
+        right: 15px;
+        top: -58px;
+        z-index: 990;
+    }
+    .screen-option-center {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        left: 0;
+        align-items: center;
+    }
+    .control-btn {
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .main-wrapper .main-content.show-bar {
+        width: 100%;
+    }
+    .main-wrapper .main-content.show-bar + .sub-content {
+        width: 100%;
+    }
+    .layoutClose {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 380px) { 
+    .main-wrapper .invite-people-wrap {
+        width: 86%;
+        left: 20px;
+    }
+    .main-wrapper .main-content .container {
+        max-height: 660px;
+        height: calc(100% - 150px);
+    }
+    #loadingDiv p {
+        font-size: 18px;
+        line-height: 1.8;
+        width: 90%;
+        text-align: left;
+        margin: 0 auto;
+    }
+    #loadingDiv h1 {
+        text-align: left;
+        width: 90%;
+        margin-left: 5%;
+    }
+    #loadingDiv p.text-center {
+        text-align: center;
+    }
+    .main-wrapper .main-content.show-bar {
+        width: 100%;
+    }
+    .main-wrapper .main-content.show-bar + .sub-content {
+        width: 100%;
+    }
+    .layoutClose {
+        display: block;
+    }
+}

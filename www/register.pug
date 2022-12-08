@@ -1,0 +1,54 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting App a Free Secure Video Calls, Chat &amp; Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Shuffle Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+  meta(name='keywords' content='shuffle, webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  //
+    <header class="site-header border-b">
+    <div class="container">
+    <div class="site-logo">
+    <a href="/" title="Logo">
+    <img src="images/logo.svg" alt="Logo" />
+    </a>
+    </div>
+    </div>
+    </header>
+  .auth-wrap
+    form#signUpForm(action='/api/auth/signup' method='post')
+      h2 Create your account
+      p
+        | Ready to join Shuffle? Let's create an account. First enter your Name, Email Address, and a Password.
+      input#firstname(name='firstname' type='text' placeholder='First Name')
+      input#email(name='email' type='text' placeholder='Enter Email Address')
+      div.pass-wrap
+        input#password(type='password' name='password' placeholder='Enter Password')
+        img#passSetting(src='images/ico_eye.svg' alt='Show')
+
+      p#errorMsg 
+      
+      button#registerBtn.signup-btn(type='button') 
+        span Create an Account
+        img(src='images/loading.gif')
+
+      p.mt-34
+        | Have an account? Log In 
+        a.herelink(href='/login') HERE
+
+script(defer='' src='js/jquery.min.js')
+script(defer='' src='js/auth.js')

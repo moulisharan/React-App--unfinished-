@@ -1,0 +1,90 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting App a Free Secure Video Calls, Chat &amp; Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+  meta(name='keywords' content='webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  header.site-header.border-b
+    .container
+      .site-logo
+        a(href='/' title='Logo')
+          img(src='images/logo.svg' alt='Logo')
+      .site-topmenu.flex.align-center
+        p#cur_time
+        div.profile 
+          p #{userinfo.username}
+          img(src=`${userinfo.usericon}`)
+
+          .sub-menu 
+            a(href='/profile') 
+              span Account
+            a(href='/roomsett') 
+              span Room Settings
+            a(href='/subscription') 
+              span Subscription
+            a(href='/records') 
+              span Recordings
+            a(href='/faq') 
+              span Support
+            a.logout(href='/logout')
+              span Log Out
+    
+        //- button#logout_btn.signin-btn(onclick="{window.location.href = '/logout'}") Logout
+  .landing
+    .landing-body
+      h1
+        | Welcome to Shuffle 
+        br
+        | lets jump on a call!
+      p
+        | Connect and collaborate through 
+        br
+        | high quality video confering on Shuffle.
+      .landing-menus
+        .landing-menu.home-landing-menu
+          div
+            input#userRoomName(type='hidden' value=`${userinfo.roomname}`)
+            img(src='images/instant_meeting_icon.svg' alt='New Meeting')
+            //- #createMeeting.roomname-wrap
+            //-   h4 Enter a room name
+            //-   p
+            //-     | As a default we generate a random room name for the 
+            //-     br
+            //-     |                                         meeting, or you can create your own
+            //-   input#roomName(type='text' name='roomName' readonly value=`${userinfo.roomname}`)
+            //-   button#startMeetingBtn.signup-btn.start-meeting-btn Start The Meeting
+          h5 New Meeting
+          span set up new meeting
+        .landing-menu
+          div
+            img(src='images/join_meeting_icon.svg' alt='Join Meeting')
+            #joinMeeting.roomname-wrap
+              h4 Enter Room Name or URL
+              p
+                | Looking to join a meeting? No worries, enter the meeting URL below or the room name, and you'll be connected to the call.
+              input#joinName(type='text' name='joinName')
+              button.signup-btn(onclick="{window.location.href = '/' + document.getElementById('joinName').value}") Enter Room Name or URL
+          h5 Join Meeting
+          span via invitation link
+      p.learn-more
+        a.here(href='/faq' title='Learn more') Learn more
+        |  about Shuffle
+    div.main-ill.home-main-ill
+      img(src='images/main_illustration.svg' alt='')
+script(defer='' src='js/jquery.min.js')
+script(defer='' src='js/landing.js')

@@ -1,0 +1,46 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting App a Free Secure Video Calls, Chat &amp; Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Shuffle Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+  meta(name='keywords' content='shuffle webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  .auth-wrap.plan-wrap
+    h1.align-center.font-30 Create your meeting room
+    p.align-center.sub-p.mb-50.font-16
+      | Your meeting room is a space for you. The link never changes so it's easy to share and add to calendar invites
+    form#roomForm.choose-room(action='/api/auth/updateroom' method='post')
+      input#lockstatus(name='lockstatus' type='hidden' value='false')
+      input#curusername(type='hidden' value=`${userinfo.username}`)
+      .roomname-wrap 
+        span 
+         | joinshuffle.io/
+        input#roomname(name='roomname' type='text' value=`${userinfo.username}` placeholder='Room Name')
+      div.locked-wrap
+        div
+          h5 Locked room 
+          p#lockdesc Anyone can enter
+        div
+          label#lockbtn(for='lockmeeting')
+            input#lockmeeting(name='lockmeeting' type='checkbox')
+            span 
+      button#createRoomBtn.signup-btn.mt-48(type='button') Complete Onboarding
+
+  .roomname-banner
+    img(src="images/createroom_bg.png")
+script(defer='' src='js/jquery.min.js')
+script(defer='' src='js/newroom.js')

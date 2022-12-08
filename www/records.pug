@@ -1,0 +1,74 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting App a Free Secure Video Calls, Chat &amp; Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+  meta(name='keywords' content='webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  header.site-header.border-b
+    .container
+      .site-logo
+        a(href='/' title='Logo')
+          img(src='images/logo.svg' alt='Logo')
+      .site-topmenu.flex.align-center
+        p#cur_time
+        div.profile 
+          p #{userinfo.username}
+          img(src=`${userinfo.usericon}`)
+
+          .sub-menu 
+            a(href='/profile') 
+              span Account
+            a(href='/roomsett') 
+              span Room Settings
+            a(href='/subscription') 
+              span Subscription
+            a(href='/records') 
+              span Recordings
+            a(href='/faq') 
+              span Support
+            a.logout(href='/logout')
+              span Log Out
+  .profile-wrap.auto-height
+    .profile-menu
+      p
+        a(href='/profile' title='Account') Account
+      p
+        a(href='/roomsett' title='Room Settings') Room Settings
+      p
+        a(href='/subscription' title='Subscription') Subscription
+      p
+        a.selected(href='/records' title='Recordings') Recordings
+      p
+        a(href='/faq' title='Support') Support
+      hr
+      p 
+        a(href='/logout' title='Log Out') Log Out
+      p.delete-link
+        a.delete(href='#delete' title='Delete Account') Delete Account
+    .profile-content
+      input#curuserid(type='hidden' value=`${userinfo.id}`)
+      input#meetingRoomName(type='hidden' value=`${userinfo.roomname}`)
+      h2 Recordings
+      p.sub-t
+        | All of your call recordings will display here. You can download and delete your calls. As you add recordings will display how much cloud storage remains.
+      
+      .record-wrap
+        
+script(defer='' src='js/jquery.min.js')
+script(defer='' src='js/landing.js')
+script(defer='' src='js/records.js')

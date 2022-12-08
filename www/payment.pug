@@ -1,0 +1,102 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting App a Free Secure Video Calls, Chat &amp; Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+  meta(name='keywords' content='webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  .auth-wrap.plan-wrap
+    form#paymentForm(action='/api/auth/updatepay' method='post')
+      input#stripeToken(name='stripeToken' type='hidden' value='')
+      input#couponid(name='couponid' type='hidden' value='')
+      input#fromVal(name='fromVal' type='hidden' value=`${from}`)
+      h1 Shuffle Premium Payment Page
+      p.sub-p.mb-50.max-width-600
+        | Below input your payment details to complete your Shuffle Premium upgrade. If you have a discount code apply it below.
+      .payment-wrap
+        .payment-method
+          .method-wrap
+            .card-select
+              label Credit or debit card
+              div
+                img#visaCard(src='images/ico_visacard.svg')
+                img#masterCard(src='images/ico_mastercard.svg')
+            .card-form
+              div.full-width
+                label Promo Code
+                div.card-input-wrap
+                  input#coupon(type='text' name='coupon' placeholder='Enter Promo Code')
+              div.full-width
+                label Card Number
+                div.card-input-wrap
+                  input#cardNumber(type='number' oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder='Your card number' maxlength='16' required)
+                  img(src='images/ico_cardnumber.svg')
+              div.half-width
+                label Expirate Day
+                div.card-input-wrap
+                  input#expirateDay(type='text' placeholder='MM/YY' maxlength='5' required)
+                  img(src='images/ico_cardexpirate.svg')
+              div.half-width
+                label 
+                  | CVC/CVV 
+                  img(src='images/ico_cardque1.svg')
+                div.card-input-wrap
+                  input#cvc(type='number' oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder='***' maxlength='4' required)
+                  img(src='images/ico_cardcvc.svg')
+              div.full-width
+                p.flex.font-size-16
+                  img(src='images/ico_cardlock.svg')
+                  | Your transaction is secured with SSL encryption
+        .summary
+          .summary-wrap
+            .summary-item.border
+              label Subscription Summary
+              p 
+                b#mainPrice $12.99 
+                span /month
+            .summary-item.border
+              label Promo Code Total
+              p#discountPrice 
+            .summary-item.border
+              label Order Total
+              p#sumPrice  $12.99 
+                span /month
+
+            .summary-btn
+              button#freeTrialBtn.signup-btn(type='button') 
+                span Upgrade to Shuffle Premium
+                img(src='images/loading.gif')
+          .summary-wrap.success
+            | Payment Complete
+          .summary-wrap.error
+            | Card error, to continue, enter valid info
+
+  //- footer
+  //-   .container
+  //-     .logo
+  //-       a(href='/' title='shuffle')
+  //-         img(src='images/footer-logo.svg' alt='')
+  //-     .footer-menu
+  //-       a(href='#this') About Shuffle
+  //-       a(href='#this') Privacy
+  //-       a(href='#this') Terms
+  //-     .country-wrap
+  //-       select
+  //-         option English(United State) - English(United State)
+script(defer='' src='js/jquery.min.js')
+script(defer='' src='https://js.stripe.com/v1/')
+script(defer='' src='js/payment.js')

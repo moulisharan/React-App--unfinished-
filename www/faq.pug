@@ -1,0 +1,144 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting App a Free Secure Video Calls, Chat &amp; Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+  meta(name='keywords' content='webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  header.site-header.border-b
+    .container
+      .site-logo
+        a(href='/' title='Logo')
+          img(src='images/logo.svg' alt='Logo')
+      .site-topmenu.flex.align-center
+        p#cur_time
+        div.profile 
+          p #{userinfo.username}
+          img(src=`${userinfo.usericon}`)
+
+          .sub-menu 
+            a(href='/profile') 
+              span Account
+            a(href='/roomsett') 
+              span Room Settings
+            a(href='/subscription') 
+              span Subscription
+            a(href='/records') 
+              span Recordings
+            a(href='/faq') 
+              span Support
+            a.logout(href='/logout')
+              span Log Out
+    
+        //- button#logout_btn.signin-btn(onclick="{window.location.href = '/logout'}") Logout
+  .profile-wrap.auto-height
+    .profile-menu
+      p
+        a(href='/profile' title='Account') Account
+      p
+        a(href='/roomsett' title='Room Settings') Room Settings
+      p
+        a(href='/subscription' title='Subscription') Subscription
+      p
+        a(href='/records' title='Recordings') Recordings
+      p
+        a.selected(href='/faq' title='Support') Support
+      hr
+      p 
+        a(href='/logout' title='Log Out') Log Out
+      p.delete-link
+        a.delete(href='#delete' title='Delete Account') Delete Account
+    .profile-content
+      h2 Support
+      p
+        | If you have a questions, you're in the right spot. Here you'll find our support questions. 
+        | We're always expanding our list, if you can find an answer to your question below, 
+        | contact us at 
+        a.here(href='mailto:hello@joinshuffle.io') hello@joinshuffle.io
+      section.faq-accordion.support-faq
+        .glue-grid
+          div.grid-col-12
+            div
+              div.accordion How many participants can join the meeting?
+                img(src='images/ico-down.svg')
+              .panel
+                p
+                  | Our plans allow for up to 100 participants to join shuffle calls
+            div
+              div.accordion  What's the difference between shuffle free or premium
+                img(src='images/ico-down.svg')
+              .panel
+                p
+                  | Both Free and Pro plans allow for unlimited 1-1 meetings with no time limit. 
+                  | The Free plan has a 45-minutes time limit for each meeting with three or more total participants. 
+                  | If you need your group meetings to last longer than 45 minutes, you can sign up for a Pro account 
+                  | here. Pro also includes Recording and your own managed domain.
+            div
+              div.accordion How do I cancel Shuffle Premium?
+                img(src='images/ico-down.svg')
+              .panel
+                p
+                  | You can cancel your subscription to Whereby at any time. 
+                  | You will continue to receive the features you've paid for until the end of that billing cycle.
+            div
+              div.accordion How safe are my meetings?
+                img(src='images/ico-down.svg')
+              .panel
+                p
+                  | Your Shuffle meeting room is locked as a default meaning any guest will have to be approved to 
+                  | join the meeting by you. A meeting cannot start until the owner of the meeting has entered the room. 
+                  | We also offer encrypted video calls at every meeting with 4 participants or less.
+
+            div
+              div.accordion Can guests join a call?
+                img(src='images/ico-down.svg')
+              .panel
+                p
+                  | Once you’ve created a meeting, you can invite anyone to join even if they don’t have a 
+                  | Shuffle account. Just share the link or meeting ID with all meeting participants.
+            div
+              div.accordion Does Shuffle have closed captioning?
+                img(src='images/ico-down.svg')
+              .panel
+                p
+                  | Shuffle does not currently have a built-in feature for closed captioning. However, 
+                  | because our calls are browser-based, you can use 
+                  a(href="https://support.google.com/chrome/answer/10538231" target="_blank") Google Chrome's captioning feature.
+                  |  To add this, Visit chrome://settings/accessibility from Chrome, then toggle Live Caption to "On." 
+                  | This will generate auto-captions for any site where it detects sound. Next time you have a 
+                  | Whereby call from your Chrome browser, captions will be automatically generated. 
+                  | If you closed the caption window but want to start seeing captions again, you can refresh the page.
+            div
+              div.accordion Can I change/update my meeting room name?
+                img(src='images/ico-down.svg')
+              .panel
+                p
+                  | You can always edit/change your meeting room name. This can be done on your profile tab on the account page.
+            div.last
+              div.accordion Can I save my meeting recordings?
+                img(src='images/ico-down.svg')
+              .panel
+                p
+                  | When you record your meetings they will be saved to your account. Once they're saved you can 
+                  | choose to download and delete the recordings as you'd like. Meeting recordings are located in 
+                  | the "Meeting Recordings" tab of the Account Page.
+      p.mt-30 
+        | Have more questions for support? Reach out to 
+        a.here(href='mailto:support@joinshuffle.io') support@joinshuffle.io
+script(defer='' src='js/jquery.min.js')
+script(defer='' src='js/landing.js')
+script(defer='' src='js/landingeffect.js')

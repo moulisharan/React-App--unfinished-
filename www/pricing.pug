@@ -1,0 +1,225 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting App a Free Secure Video Calls, Chat &amp; Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+  meta(name='keywords' content='webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  header.site-header.padding-landing
+    .container
+      .site-logo
+        a(href='/' title='shuffle')
+          img(src='images/logo.svg' alt='')
+        .top-menus 
+          button.top-btn(onclick="{window.location.href = '/'}") Home
+          button.top-btn(onclick="{window.location.href = '/#servicemap-area'}") Features
+          button.top-btn.selected(onclick="{window.location.href = '/pricing'}") Pricing
+      .mobile-menu
+        label#mobilelable(for='mobileOpen') Menu
+        input#mobileOpen(type='checkbox')
+        //- span
+        //- span
+        //- span
+      .landing-topmenu.flex.align-center
+        .top-menus 
+          button.top-btn(onclick="{window.location.href = '/'}") Home
+          button.top-btn(onclick="{window.location.href = '/#servicemap-area'}") Features
+          button.top-btn.selected(onclick="{window.location.href = '/pricing'}") Pricing
+        button.toplogin(onclick="{window.location.href = '/login'}") Sign In
+        .enter-meeting-wrap
+          input.meeingname(type='text' placeholder='Enter Meeting URL')
+          button.joinmeetingbtn Join
+        button.signup-btn(onclick="{window.location.href = '/register'}") Get Started for Free
+  .landing-learn 
+    | Shuffle has officially launched! Start video conferencing for free! 
+    img(src='images/ico_rocket.png')
+  .auth-wrap.plan-wrap.auto-height.mobile-mt-70 
+    h1 We have a plan built for everyone!
+    p.sub-p
+      | Take a look at our pricing and plans below. Get started on shuffle for free with no credit card, 
+      | if you're enjoying your shuffle calls upgrade to premium to unlock all we have to offer!
+    .plan-form-wrap 
+      .first-section 
+        .plan-header
+          h2.plan-first Product Features
+        .sect-wrap
+          p 1:1 meeting length (max time)
+          p Number of meetings per month
+          p Group meeting duration (max time)
+          p Max number of meeting participants
+          p Cloud recording storage
+          p Adjustable meeting layouts
+          p Exteneral guest invites
+          p Meeting colaboration tools
+          p Screen Sharing
+          p Priority customer support
+          p Custom room branding
+          p Live Streaming (in beta)
+          p Exportable registrant and attendee lists
+      .second-section 
+        .plan-header
+          h2 
+            span Free Tier
+            br
+            | Free Forever
+        .sect-wrap
+          p unlimited
+          p unlimited
+          p 45 minutes
+          p 10
+          p 1GB of storage
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_checkclose.svg")
+          p
+            img(src="images/ico_checkclose.svg")
+          p
+            img(src="images/ico_checkclose.svg")
+          p
+            img(src="images/ico_checkclose.svg")
+          
+          button.free-btn(type='button' onclick='window.location.href="/register"') Get Started with free!
+      .third-section.selected
+        .plan-header
+          h2 
+            span Premium Tier
+            br
+            | $12.99
+            span /per month
+        .sect-wrap
+          p unlimited
+          p unlimited
+          p unlimited
+          p 100
+          p 5GB of storage
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          p
+            img(src="images/ico_check.svg")
+          
+          button.plan-btn(type='button' onclick='window.location.href="/register"') Upgrade your meetings!
+  .guest-landing
+    section.faq-accordion
+      .glue-grid
+        div.grid-col-1
+        div.grid-col-10
+          h2 Frequently asked questions
+          div
+            div.accordion How many participants can join the meeting?
+              img(src='images/ico-down.svg')
+            .panel
+              p
+                | Our plans allow for up to 100 participants to join shuffle calls
+          div
+            div.accordion  What's the difference between shuffle free or premium
+              img(src='images/ico-down.svg')
+            .panel
+              p
+                | Both Free and Pro plans allow for unlimited 1-1 meetings with no time limit. 
+                | The Free plan has a 45-minutes time limit for each meeting with three or more total participants. 
+                | If you need your group meetings to last longer than 45 minutes, you can sign up for a Pro account 
+                | here. Pro also includes Recording and your own managed domain.
+          div
+            div.accordion How do I cancel Shuffle Premium?
+              img(src='images/ico-down.svg')
+            .panel
+              p
+                | You can cancel your subscription to Whereby at any time. 
+                | You will continue to receive the features you've paid for until the end of that billing cycle.
+          div
+            div.accordion How safe are my meetings?
+              img(src='images/ico-down.svg')
+            .panel
+              p
+                | Your Shuffle meeting room is locked as a default meaning any guest will have to be approved to 
+                | join the meeting by you. A meeting cannot start until the owner of the meeting has entered the room. 
+                | We also offer encrypted video calls at every meeting with 4 participants or less.
+
+          div
+            div.accordion Can guests join a call?
+              img(src='images/ico-down.svg')
+            .panel
+              p
+                | Once you’ve created a meeting, you can invite anyone to join even if they don’t have a 
+                | Shuffle account. Just share the link or meeting ID with all meeting participants.
+          div
+            div.accordion Does Shuffle have closed captioning?
+              img(src='images/ico-down.svg')
+            .panel
+              p
+                | Shuffle does not currently have a built-in feature for closed captioning. However, 
+                | because our calls are browser-based, you can use 
+                a(href="https://support.google.com/chrome/answer/10538231" target="_blank") Google Chrome's captioning feature.
+                |  To add this, Visit chrome://settings/accessibility from Chrome, then toggle Live Caption to "On." 
+                | This will generate auto-captions for any site where it detects sound. Next time you have a 
+                | Whereby call from your Chrome browser, captions will be automatically generated. 
+                | If you closed the caption window but want to start seeing captions again, you can refresh the page.
+          div
+            div.accordion Can I change/update my meeting room name?
+              img(src='images/ico-down.svg')
+            .panel
+              p
+                | You can always edit/change your meeting room name. This can be done on your profile tab on the account page.
+          div.last
+            div.accordion Can I save my meeting recordings?
+              img(src='images/ico-down.svg')
+            .panel
+              p
+                | When you record your meetings they will be saved to your account. Once they're saved you can 
+                | choose to download and delete the recordings as you'd like. Meeting recordings are located in 
+                | the "Meeting Recordings" tab of the Account Page.
+  
+  footer
+    .container
+      .logo
+        a(href='/' title='shuffle')
+          img(src='images/footer-logo.svg' alt='')
+      .footer-menu
+        a(href='#this') Privacy Policy
+        br
+        a(href='#this') Terms of Use
+        br
+        a(href='#this') Built by Axe
+          img(src='images/axe_logo.png')
+      .country-wrap
+        select
+          option English(United State) - English(United State)
+          option English(United State) - English(United State)
+          option English(United State) - English(United State)
+          option English(United State) - English(United State)
+script(defer='' src='js/jquery.min.js')
+script(defer='' src='js/auth.js')
+script(defer='' src='js/landingeffect.js')

@@ -1,0 +1,109 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting App a Free Secure Video Calls, Chat &amp; Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop.')
+  meta(name='keywords' content='webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  .auth-wrap.plan-wrap
+    form#planform(action='/api/auth/updateplan' method='post')
+      input#plantype(name='plantype' type='hidden' value='0')
+      h1 We have a plan built for everyone!
+      p.sub-p
+        | Take a look at our pricing and plans below. Get started on shuffle for free with no credit card, 
+        | if you're enjoying your shuffle calls upgrade to premium to unlock all we have to offer!
+      .plan-form-wrap 
+        .first-section 
+          .plan-header
+            h2.plan-first Product Features
+          .sect-wrap
+            p 1:1 meeting length (max time)
+            p Number of meetings per month
+            p Group meeting duration (max time)
+            p Max number of meeting participants
+            p Cloud recording storage
+            p Adjustable meeting layouts
+            p Exteneral guest invites
+            p Meeting colaboration tools
+            p Screen Sharing
+            p Priority customer support
+            p Custom room branding
+            p Live Streaming (in beta)
+            p Exportable registrant and attendee lists
+        .second-section 
+          .plan-header
+            h2 
+              span Free Tier
+              br
+              | Free Forever
+          .sect-wrap
+            p unlimited
+            p unlimited
+            p 45 minutes
+            p 10
+            p 1GB of storage
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_checkclose.svg")
+            p
+              img(src="images/ico_checkclose.svg")
+            p
+              img(src="images/ico_checkclose.svg")
+            p
+              img(src="images/ico_checkclose.svg")
+            
+            button#freePlanBtn.free-btn(type='button') Get Started with free!
+        .third-section.selected
+          .plan-header
+            h2 
+              span Premium Tier
+              br
+              | $12.99
+              span /per month
+          .sect-wrap
+            p unlimited
+            p unlimited
+            p unlimited
+            p 100
+            p 5GB of storage
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            p
+              img(src="images/ico_check.svg")
+            
+            button#paidPlanBtn.plan-btn(type='button') Upgrade your meetings!
+script(defer='' src='js/jquery.min.js')
+script(defer='' src='js/auth.js')

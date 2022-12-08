@@ -1,0 +1,71 @@
+doctype html
+head
+  // Title and Icon
+  title Shuffle Video Meeting - Free Video Calls, Messaging and Screen Sharing.
+  link(rel='shortcut icon' href='images/fav.png')
+  link(rel='apple-touch-icon' href='images/fav.png')
+  // Meta Information
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='description' content='Real-time Simple Secure Fast video calls, messaging and screen sharing capabilities in the browser.')
+  meta(name='keywords' content='webrtc, mediasoup, mediasoup-client, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting')
+  // https://ogp.me
+  meta(property='og:type' content='app-webrtc')
+  meta(property='og:site_name' content='Shuffle')
+  meta(property='og:title' content='Video conferencing made simple')
+  meta(property='og:description' content='Easy to use video conferencing, no app downloads or log ins required.')
+  meta(property='og:image' content='images/shuffle.png')
+  // StyleSheet
+  link(rel='stylesheet' href='css/font.css')
+  link(rel='stylesheet' href='css/landing.css')
+.body-wrap
+  // Header
+  header.site-header
+    .container
+      .site-logo
+        a(href='/' title='Logo')
+          img(src='images/logo.svg' alt='Logo')
+      .site-topmenu
+        button#signin_btn.signin-btn Sign In
+        button#signup_btn.signup-btn Sign Up
+  main.site-content
+    section.hero.section.illustration-section-01
+      .container
+        .hero-inner.section-inner
+          .split-wrap.invert-mobile
+            .split-item
+              .hero-content.split-item-content.center-content-mobile
+                h1.mt-0.mb-16.reveal-from-bottom(data-reveal-delay='150')
+                  | Access denied.
+                p#getUserMediaError.mt-0.mb-32.reveal-from-bottom(data-reveal-delay='300')
+                p.mt-0.mb-32.reveal-from-bottom(data-reveal-delay='300')
+                  | This app will not work without camera/microphone access. Please Try again
+                  | and allow it.
+                script.
+                  let qs = new URLSearchParams(window.location.search);
+                  let roomId = qs.get('roomId');
+                  let getUserMediaError = qs.get('getUserMediaError');
+                  console.log('Allow Camera && Audio', {
+                  roomId: roomId,
+                  getUserMediaError: getUserMediaError,
+                  });
+                  // print getUserMedia error
+                  document.getElementById('getUserMediaError').innerHTML = getUserMediaError;
+                .reveal-from-bottom(data-reveal-delay='450')
+                  button.button.button-primary.button-wide-mobile.pulse(style='\
+                  border: 0;\
+                  background: linear-gradient(\
+                  100deg,\
+                  #376df9 0,\
+                  #ff5fa0 75%,\
+                  #ffc55a 100%\
+                  );\
+                  ' onclick="roomId ? window.location.href = '/join/' + roomId : window.location.href = '/newcall';")
+                    | Try again
+              style.
+                @media (min-width: 641px) {
+                .hero .split-wrap .split-item {
+                min-height: 492px;
+                }
+                }

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        <!-- Title and Icon -->
+
+        <title>Video Meeting App a Free Secure Video Calls, Chat & Screen Sharing.</title>
+        <link rel="shortcut icon" href="images/fav.svg" />
+        <link rel="apple-touch-icon" href="images/fav.svg" />
+
+        <!-- Meta Information -->
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <meta
+            name="description"
+            content="Video Meeting App powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop."
+        />
+        <meta
+            name="keywords"
+            content="webrtc, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting"
+        />
+
+        <!-- https://ogp.me -->
+
+        <meta property="og:type" content="app-webrtc" />
+        <meta property="og:site_name" content="Video Meeting App" />
+        <meta property="og:title" content="Click the link to make a call." />
+        <meta
+            property="og:description"
+            content="Video Meeting App calling provides real-time HD quality and latency simply not available with traditional technology."
+        />
+
+        <!-- StyleSheet -->
+
+        <link rel="stylesheet" href="css/landing.css" />
+    </head>
+    <body class="has-animations">
+        <div class="body-wrap">
+            <header class="site-header border-b">
+                <div class="container">
+                    <div class="site-logo">
+                        <a href="/" title="Logo">
+                            <img src="images/logo.svg" alt="Logo" />
+                        </a>
+                        <p id="cur_time"></p>
+                    </div>
+                    <div class="site-topmenu">
+                        <button id="plan_pricing" class="signin-btn">Plans & Pricing</button>
+                        <button id="signin_btn" class="signin-btn">Sign In</button>
+                        <button id="signup_btn" class="signup-btn">Sign Up</button>
+                    </div>
+                </div>
+            </header>
+            <div class="landing">
+                <div class="landing-body">
+                    <!-- <h1 id="cur_time"></h1>
+                    <p id="cur_date"></p> -->
+
+                    <div class="landing-menus">
+                        <div class="landing-menu selected">
+                            <div>
+                                <img src="images/instant_meeting_icon.svg" alt="New Meeting"/>
+                                <div class="roomname-wrap" id="createMeeting">
+                                    <h4>Enter a room name</h4>
+                                    <p>As a default we generate a random room name for the <br />
+                                        meeting, or you can create your own</p>
+                                    <input type="text" id="roomName" name="roomName" />
+                                    <button class="signup-btn" onclick="{window.location.href = '/join/' + document.getElementById('roomName').value}">Start The Meeting</button>
+                                </div>
+                            </div>
+                            <h5>New Meeting</h5>
+                            <span>set up new meeting</span>
+                        </div>
+                        <div class="landing-menu">
+                            <div>
+                                <img src="images/join_meeting_icon.svg" alt="Join Meeting" />
+                                <div class="roomname-wrap" id="joinMeeting">
+                                    <h4>Enter meeting link</h4>
+                                    <p>Lorem ipsum dorem sit dummy text Lorem <br />ipsum dorem sit dummy text</p>
+                                    <input type="text" id="joinName" name="joinName" />
+                                    <button class="signup-btn" onclick="{window.location.href = '/join/' + document.getElementById('joinName').value}">Enter Meeting Link</button>
+                                </div>
+                            </div>
+                            <h5>Join Meeting</h5>
+                            <span>via invitation link</span>
+                        </div>
+                        <div class="landing-menu">
+                            <img src="images/schedule_meeting_icon.svg" alt="Schedule" />
+                            <h5>Schedule</h5>
+                            <span>plan your meetings</span>
+                        </div>
+                        <div class="landing-menu">
+                            <img src="images/share_screen_icon.svg" alt="Share Screen" />
+                            <h5>Share Screen</h5>
+                            <span>show your work</span>
+                        </div>
+                    </div>
+
+                    <p>Want to learn more? Click <a href="#this" title="HERE" class="here">HERE</a></p>
+                </div>
+            </div>
+        </div>
+        <script defer src="js/jquery.min.js"></script>
+        <script defer src="js/landing.js"></script>
+    </body>
+</html>

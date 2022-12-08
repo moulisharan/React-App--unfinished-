@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Title and Icon -->
+        <title>Shuffle WebRTC Video call, Chat Room & Screen Sharing.</title>
+        <link rel="shortcut icon" href="images/fav.svg" />
+        <link rel="apple-touch-icon" href="images/fav.svg" />
+
+        <!-- Meta Information -->
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        />
+        <meta
+            name="description"
+            content="Shuffle powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop."
+        />
+        <meta
+            name="keywords"
+            content="webrtc, webrtc stun, webrtc turn, video meeting, video chat, multi video chat, peer to peer, p2p, zoom"
+        />
+
+        <!-- https://ogp.me -->
+
+        <meta property="og:type" content="app-webrtc" />
+        <meta property="og:site_name" content="Shuffle" />
+        <meta property="og:title" content="Click the link to join this call." />
+        <meta property="og:description" content="Free WebRTC browser-based video call." />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png" />
+
+        <!-- StyleSheet -->
+        <link rel="stylesheet" href="/css/font.css" />
+        <link rel="stylesheet" href="/css/landing.css" />
+        <link rel="stylesheet" href="/css/client.css" />
+        <link rel="stylesheet" href="/css/whiteboard.css" />
+
+        <!-- https://animate.style 4 using for swal fadeIn-Out -->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    </head>
+
+    <body onload="initClientPeer()">
+        <div class="body-wrap">
+            <noscript>You need to enable JavaScript to run this app.</noscript>
+
+            <!-- just 4SEO Optimization -->
+
+            <div id="webRTCSeo"><h1>WebRTC</h1></div>
+
+            <!-- show this before to join -->
+
+            <div id="loadingBg" class="loading-bg">
+                <div id="loadingDiv">
+                    <h1>You're entering the meeting</h1>
+                    <p>
+                        Please click allow microphone and camera access in <br />
+                        the top left before you enter the meeting
+                    </p>
+                    <div class="no-mic-cam">
+                        <img src="/images/ico_loading.svg" />
+                        <p>No mic/cam access</p>
+                    </div>
+                </div>
+            </div>
+
+            <video id="prevVideo" playsinline="true" muted="true" autoplay></video>
+
+            <div id="buttonsBar">
+                <button id="shareRoomBtn" class="fas fa-users"></button>
+                <button id="swapCameraBtn" class="fas fa-sync-alt"></button>
+                <button id="recordStreamBtn" class="fas fa-record-vinyl"></button>
+                <button id="fullScreenBtn" class="fas fa-expand-alt"></button>
+                <button id="chatRoomBtn" class="fas fa-comment"></button>
+                <button id="whiteboardBtn" class="fas fa-chalkboard-teacher"></button>
+                <button id="gameBtn" class="fas fa-gamepad"></button>
+                <button id="aboutBtn" class="fas fa-question"></button>
+                <button id="leaveRoomBtn" class="fas fa-phone-slash"></button>
+            </div>
+
+            <div class="main-wrapper container">
+                <div class="invite-people-wrap">
+                    <h5>Your meeting is ready!</h5>
+                    <img src="/images/ico_closepopup.svg" alt="Close" id="closeInviteParyBtn"/>
+                    <div class="clear"></div>
+                    <button id="invitePaticipants" class="invite-party-btn">+ Invite Participants</button>
+                    <br /><br />
+                    <p>Or share this link</p>
+                    <p id="inviteLink"></p>
+                    <img src="/images/ico_copy.svg" alt="Copy" id="copyInviteLink"/>
+                    <div class="clear"></div>
+                </div>
+                <div class="main-content">
+                    <div class="container">
+                        <div id="videoMediaContainer" class="screen-type1">
+                        </div>
+                    </div>
+
+                    <div class="meeting-controls">
+                        <div class="container control-div">
+                            <div class="screen-option-left">
+                                <div class="room-info-wrap">
+                                    <span id="curMeetingName">Meeting Name</span>
+                                    <p>
+                                        <span id="countMember">1/100</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <span id="countTime">00:00:00</span>&nbsp;&nbsp;&nbsp;
+                                        <img src="/images/ico_blue_cur.svg" alt="" id="collapse-time-btn"/>
+                                    </p>
+                                </div>
+                                
+                            </div>
+                            <div class="screen-option-center">
+                                <button id="showSettingBtn" class="control-btn">
+                                    <img src="/images/ico_settings.svg" alt="Settings" />
+                                </button>
+                                <button id="shareFileBtn" class="control-btn">
+                                    <img src="/images/ico_folder.svg" alt="Share a file" />
+                                </button>
+                                <button id="screenShareBtn" class="control-btn">
+                                    <img src="/images/ico_sharescreen.svg" alt="Share Screen" />
+                                </button>
+                                <button id="endMeetingBtn" class="end-meeting-btn">
+                                    <img src="/images/ico_callend.svg" alt="End Meeting" />
+                                </button>
+                                <button id="recordBtn" class="control-btn">
+                                    <img src="/images/ico_record.svg" alt="Record" />
+                                </button>
+                                <button id="localEnableMic" class="control-btn">
+                                    <img src="/images/ico_setting_mic.svg" alt="Mic On/Off" />
+                                </button>
+                                <button id="more-menu-btn" class="control-btn">
+                                    <img src="/images/ico_more.svg" alt="More" />
+                                </button>
+                            </div>
+
+                            <div class="screen-option-right">
+                                <button id="raiseHandBtn">
+                                    <img src="/images/ico_hand.svg" alt="Raise Hand" />
+                                </button>
+                                <div class="right-section-btn">
+                                    <button id="meetPartyBtn">
+                                        <img src="/images/ico_participants.svg" alt="Meeting Participants" />
+                                        <span id="meetPartyCount">1</span>
+                                    </button>|
+                                    <button id="chatBtn">
+                                        <img src="/images/ico_messenger.svg" alt="Chat" />
+                                    </button>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-content">
+                    <div class="chat-sidebar">
+                        <section id="msger" class="msger">
+                            <header id="msgerHeader" class="msger-header">
+                                <div class="msger-header-title"><img src="/images/ico_msgbox.svg" >&nbsp;&nbsp;Chat</div>
+                                <div class="msger-header-options hide">
+                                    <button id="msgerTheme" class="fas fa-ghost"></button>
+                                    <button id="msgerCPBtn" class="fas fa-users"></button>
+                                    <button id="msgerClean" class="fas fa-trash"></button>
+                                    <button id="msgerSaveBtn" class="fas fa-save"></button>
+                                    <button id="msgerClose" class="fas fa-times"></button>
+                                </div>
+                            </header>
+            
+                            <!-- public messages example -->
+            
+                            <div class="msger-chat-wrap">
+                                <main id="msgerChat" class="msger-chat">
+                                </main>
+                            </div>
+            
+                            <!-- Start emoji picker 
+                            https://github.com/nolanlawson/emoji-picker-element ] 
+                            -->
+            
+                            <section id="msgerEmojiPicker">
+                                <emoji-picker class="dark"></emoji-picker>
+                                <!-- <emoji-picker class="light"></emoji-picker> -->
+                            </section>
+            
+                            <!-- End emoji picker -->
+            
+                            <div class="msger-inputarea">
+                                <div class="msger-extra-btn hide">
+                                    <div>
+                                        <button id="msgerVideoUrlBtn">
+                                            <img src="/images/ico_newchat.svg" />
+                                        </button>
+                                        <button id="msgerNewFileBtn">
+                                            <img src="/images/ico_newfile.svg" />
+                                        </button>
+                                        <button id="msgerSoundRecBtn">
+                                            <img src="/images/ico_mic.svg" />
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button id="msgerEmojiBtn">
+                                            <img src="/images/ico_emoji.svg" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="msger-extra-input flex">
+                                    <button id="msgerEmojiBtn">
+                                        <img src="/images/ico_emoji.svg" />
+                                    </button>
+                                    <input id="msgerInput" class="msger-input" type="text" placeholder="Type to write a message" />
+                                    <button id="msgerSendBtn">Send</button>
+                                </div>
+                            </div>
+                        </section>
+            
+                        <!-- Start private msg -->
+            
+                        <section id="msgerCP">
+                            <section id="msgerCPSec" class="msger">
+                                <header id="msgerCPHeader" class="msger-private-header">
+                                    <div class="msger-header-title"><i class="fas fa-comment-alt"></i> Send Private messages</div>
+                                    <div class="msger-header-options">
+                                        <button id="msgerCPCloseBtn" class="fas fa-times"></button>
+                                    </div>
+                                </header>
+                                <main id="msgerCPChat" class="msger-chat">
+                                    <div class="search-container">
+                                        <input
+                                            id="searchPeerBarName"
+                                            type="text"
+                                            placeholder=" 🔍 Search peer by name..."
+                                            name="search"
+                                            onkeyup="searchPeer()"
+                                        />
+                                    </div>
+                                    <br />
+                                    <div id="msgerCPList"></div>
+                                </main>
+                            </section>
+                        </section>
+                    </div>
+                    <div class="memparty-sidebar">
+                        <div class="memparty-header">
+                            <div>
+                                <img src="/images/ico_user_parti.svg" />&nbsp;&nbsp;
+                                Participants
+                            </div>
+                            <!-- Meeting Participants (<span id="meetingPartyCount">1</span>) -->
+                        </div>
+                        <div class="memparty-content" id="memParticipantList">
+                        </div>
+                        <div class="memparty-invite">
+                            <button id="memparty-invite-btn">Invite via Email</button>
+                            <button id="memparty-copy-link">Copy Meeting Link to Clipboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End left buttons -->
+
+        <!-- Start chat room 
+        https://codepen.io/sajadhsm/pen/odaBdd
+        https://getemoji.com
+        -->
+
+        <section id="msgerDraggable" class="msger-draggable hide">
+            <!-- <section id="msger" class="msger">
+                <header id="msgerHeader" class="msger-header">
+                    <div class="msger-header-title"><i class="fas fa-comment-alt"></i> Chat</div>
+                    <div class="msger-header-options">
+                        <button id="msgerTheme" class="fas fa-ghost"></button>
+                        <button id="msgerCPBtn" class="fas fa-users"></button>
+                        <button id="msgerClean" class="fas fa-trash"></button>
+                        <button id="msgerSaveBtn" class="fas fa-save"></button>
+                        <button id="msgerClose" class="fas fa-times"></button>
+                    </div>
+                </header> -->
+
+                <!-- public messages example -->
+
+                <!-- <main id="msgerChat" class="msger-chat">
+                    <div class="msg left-msg">
+                        <div
+                            class="msg-img"
+                            style="
+                                background-image: url('https://eu.ui-avatars.com/api?name=Friends Name&size=24&background=random&rounded=true');
+                            "
+                        ></div>
+
+                        <div class="msg-bubble">
+                            <div class="msg-info">
+                                <div class="msg-info-name">Friends Name</div>
+                                <div class="msg-info-time">00:00:00</div>
+                            </div>
+
+                            <div class="msg-text">Public message example</div>
+                        </div>
+                    </div>
+
+                    <div class="msg right-msg">
+                        <div
+                            class="msg-img"
+                            style="
+                                background-image: url('https://eu.ui-avatars.com/api?name=Your Name&size=24&background=random&rounded=true');
+                            "
+                        ></div>
+
+                        <div class="msg-bubble">
+                            <div class="msg-info">
+                                <div class="msg-info-name">Your Name</div>
+                                <div class="msg-info-time">00:00:00</div>
+                            </div>
+
+                            <div class="msg-text">Public message example</div>
+                        </div>
+                    </div> -->
+
+                    <!-- private message example -->
+
+                    <!-- <div class="msg left-msg">
+                        <div
+                            class="msg-img"
+                            style="
+                                background-image: url('https://eu.ui-avatars.com/api?name=Friends Name&size=24&background=random&rounded=true');
+                            "
+                        ></div>
+
+                        <div class="private-msg-bubble">
+                            <div class="msg-info">
+                                <div class="msg-info-name">Friends Name</div>
+                                <div class="msg-info-time">00:00:00</div>
+                            </div>
+
+                            <div class="msg-text">Private message example</div>
+                        </div>
+                    </div>
+
+                    <div class="msg right-msg">
+                        <div
+                            class="msg-img"
+                            style="
+                                background-image: url('https://eu.ui-avatars.com/api?name=Your Name&size=24&background=random&rounded=true');
+                            "
+                        ></div>
+
+                        <div class="private-msg-bubble">
+                            <div class="msg-info">
+                                <div class="msg-info-name">Your Name</div>
+                                <div class="msg-info-time">00:00:00</div>
+                            </div>
+
+                            <div class="msg-text">Private message example</div>
+                        </div>
+                    </div>
+                </main> -->
+
+                <!-- Start emoji picker 
+                https://github.com/nolanlawson/emoji-picker-element ] 
+                -->
+
+                <!-- <section id="msgerEmojiPicker">
+                    <emoji-picker class="dark"></emoji-picker> -->
+                    <!-- <emoji-picker class="light"></emoji-picker> -->
+                </section>
+
+                <!-- End emoji picker -->
+
+                <!-- <div class="msger-inputarea">
+                    <input id="msgerInput" class="msger-input" type="text" placeholder="💬 Enter your message..." />
+                    <button id="msgerVideoUrlBtn" class="fab fa-youtube"></button>
+                    <button id="msgerEmojiBtn" class="fas fa-smile"></button>
+                    <button id="msgerSendBtn" class="fas fa-paper-plane"></button>
+                </div>
+            </section> -->
+
+            <!-- Start private msg -->
+
+            <!-- <section id="msgerCP">
+                <section id="msgerCPSec" class="msger">
+                    <header id="msgerCPHeader" class="msger-private-header">
+                        <div class="msger-header-title"><i class="fas fa-comment-alt"></i> Send Private messages</div>
+                        <div class="msger-header-options">
+                            <button id="msgerCPCloseBtn" class="fas fa-times"></button>
+                        </div>
+                    </header>
+                    <main id="msgerCPChat" class="msger-chat">
+                        <div class="search-container">
+                            <input
+                                id="searchPeerBarName"
+                                type="text"
+                                placeholder=" 🔍 Search peer by name..."
+                                name="search"
+                                onkeyup="searchPeer()"
+                            />
+                        </div>
+                        <br />
+                        <div id="msgerCPList"></div>
+                    </main>
+                </section>
+            </section> -->
+            <!-- End private msg -->
+        </section>
+
+        <!-- End chat room -->
+
+        <!-- Start my settings -->
+
+        <section id="mySettings">
+            <header id="mySettingsHeader">
+                <h5>Meeting Settings</h5>
+                <button id="mySettingsCloseBtn">
+                    <img src="/images/ico_close.svg" alt="Close" />
+                </button>
+            </header>
+            <main>
+                <div class="tab">
+                    <button id="tabDevicesBtn" class="tablinks active">Devices</button>
+                    <button id="tabBandwidthBtn" class="tablinks">Bandwidth</button>
+                    <button id="tabRoomBtn" class="tablinks">Room</button>
+                </div>
+
+                <div id="tabDevices" class="tabcontent">
+                    <div>
+                        <label for="videoSource">Camera</label>
+                        <select id="videoSource"></select>
+                    </div>
+                    <br />
+                    <div>
+                        <label for="audioSource">Microphone</label>
+                        <select id="audioSource"></select>
+                    </div>
+                    <br />
+                    <div>
+                        <label for="audioOutput">Speaker</label>
+                        <select id="audioOutput"></select>
+                    </div>
+                </div>
+
+                <div id="tabBandwidth" class="tabcontent">
+                    <label for="videoQuality">Video quality</label>
+                    <select id="videoQuality">
+                        <option value="default">Default</option>
+                        <option value="qvgaVideo">QVGA</option>
+                        <option value="vgaVideo">VGA</option>
+                        <option value="hdVideo">HD</option>
+                        <option value="fhdVideo">FULL HD</option>
+                        <option value="4kVideo">4K</option>
+                    </select>
+                    <br /><br />
+                    <label for="videoFps">Camera fps</label>
+                    <select id="videoFps">
+                        <option value="30">30 fps</option>
+                        <option value="25">25 fps</option>
+                        <option value="20">20 fps</option>
+                        <option value="15">15 fps</option>
+                        <option value="10">10 fps</option>
+                        <option value="5">5 fps</option>
+                    </select>
+                    <br /><br />
+                    <label for="screenFps">Screen fps</label>
+                    <select id="screenFps">
+                        <option value="30">30 fps</option>
+                        <option value="25">25 fps</option>
+                        <option value="20">20 fps</option>
+                        <option value="15">15 fps</option>
+                        <option value="10">10 fps</option>
+                        <option value="5">5 fps</option>
+                    </select>
+                </div>
+
+                <div id="tabRoom" class="tabcontent">
+                    <label for="myPeerNameSet">My name</label>
+                    <div class="flex just-between">
+                        <input id="myPeerNameSet" type="text" placeholder="Change name..." />
+                        <button id="myPeerNameSetBtn" class="signup-btn">&nbsp;Change</button>
+                    </div>
+                    <br />
+                    <label>Participants</label>
+                    <div class="flex">
+                        <button id="muteEveryoneBtn">&nbsp;Mute everyone</button>
+                        <button id="hideEveryoneBtn">&nbsp;Hide everyone</button>
+                    </div>
+                    <br />
+                    <label>Security</label>
+                    <button id="lockUnlockRoomBtn">Lock Meeting</button>
+                </div>
+            </main>
+        </section>
+        <img src="/images/ico_screen1.svg" class="hide" />
+        <img src="/images/ico_screen2.svg" class="hide" />
+
+        <!-- End my settings -->
+
+        <!-- Start whiteboard -->
+
+        <div class="whiteboard-cont">
+            <div class="colors-cont">
+                <button id="whiteboardCloseBtn" class="fas fa-times"></button>
+                <button id="whiteboardFsBtn" class="fas fa-expand-alt"></button>
+                <div>
+                    <input type="color" id="whiteboardColorPicker" onchange="setColor(value)" />
+                </div>
+                <br />
+
+                <div class="white" onclick="setColor('#ffffff')"></div>
+                <div class="red" onclick="setColor('#e74c3c')"></div>
+                <div class="yellow" onclick="setColor('#f1c40f')"></div>
+                <div class="green" onclick="setColor('#badc58')"></div>
+                <div class="blue" onclick="setColor('#3498db')"></div>
+                <div class="orange" onclick="setColor('#e67e22')"></div>
+                <div class="purple" onclick="setColor('#9b59b6')"></div>
+                <div class="pink" onclick="setColor('#fd79a8')"></div>
+                <div class="brown" onclick="setColor('#834c32')"></div>
+                <div class="grey" onclick="setColor('#afadad')"></div>
+
+                <button id="whiteboardEraserBtn" class="fas fa-eraser"></button>
+                <button id="whiteboardSaveBtn" class="fas fa-save"></button>
+                <button id="whiteboardCleanBtn" class="fas fa-trash"></button>
+            </div>
+            <canvas id="whiteboard"></canvas>
+        </div>
+
+        <!-- End whiteboard -->
+
+        <!-- Start File Send -->
+
+        <div id="sendFileDiv">
+            <img id="imgShare" src="../images/share.png" alt="Shuffle-share" class="center" /><br />
+            <div id="sendFileInfo"></div>
+            <div id="sendFilePercentage"></div>
+            <progress id="sendProgress" max="0" value="0"></progress>
+            <button id="sendAbortBtn" class="fas fa-stop-circle">&nbsp;Abort</button>
+        </div>
+
+        <!-- End File Send -->
+
+        <!-- Start video URL iframe -->
+
+        <div id="videoUrlCont">
+            <div id="videoUrlHeader">
+                <button id="videoUrlCloseBtn" class="fas fa-times"></button>
+            </div>
+            <br />
+            <iframe
+                id="videoUrlIframe"
+                title="Video Url Player"
+                src="https://www.youtube.com/embed/RT6_Id5-7-s"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            ></iframe>
+        </div>
+
+        <!-- End Youtube Iframe -->
+
+        <!-- Start game iframe 
+        https://github.com/chvin/react-tetris
+        -->
+
+        <div id="gameCont">
+            <div id="gameHeader">
+                <button id="gameCloseBtn" class="fas fa-times"></button>
+            </div>
+            <br />
+            <iframe
+                id="gameIframe"
+                title="Tetris"
+                src="https://chvin.github.io/react-tetris/?lan=en"
+                frameborder="0"
+            ></iframe>
+        </div>
+
+        <!-- End game Iframe -->
+
+        <!-- Js scripts -->
+
+        <script defer src="https://kit.fontawesome.com/d2f1016e6f.js" crossorigin="anonymous"></script>
+        <script defer src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+        <script defer src="https://cdn.rawgit.com/muaz-khan/DetectRTC/master/DetectRTC.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20"></script>
+        <script defer type="module" src="https://unpkg.com/emoji-picker-element@1"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+        <script defer src="https://unpkg.com/@popperjs/core@2"></script>
+        <script defer src="https://unpkg.com/tippy.js@6"></script>
+        <script defer src="/js/jquery.min.js"></script>
+        <script defer src="/socket.io/socket.io.js"></script>
+        <script defer src="/js/client.js"></script>
+
+        <!-- end of Js scripts -->
+
+        <!-- 
+		the <video> and <audio> tags are all added and removed dynamically
+		in 'onAddStream', 'setupLocalMedia', and 'removePeer'/'disconnect'
+		-->
+    </body>
+</html>
